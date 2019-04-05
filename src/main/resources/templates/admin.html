@@ -1,0 +1,22 @@
+<html>
+<head>
+<title>Admin Panel</title>
+<link th:href="@{css/dap.css}" rel="stylesheet"
+	href="../static/css/dap.css">
+</head>
+<body>
+	<span>salut </span>
+
+	<table border=1>
+		<tr>
+			<td>Utilisateurs</td>
+			<td>Acces Token</td>
+			<td>Refresh Token</td>
+			<td>Expriration/jour</td>
+		</tr>
+		<tr th:each="userData : ${Map}">
+			<td th:each="user : ${userData}" th:text="${user}"></td>
+		</tr>
+	</table>
+</body>
+</html>

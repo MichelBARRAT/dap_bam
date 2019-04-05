@@ -26,6 +26,7 @@ import fr.hoc.dap.server.Configuration;
 /** Service to stock Credentials.
  * @author Michette & Thomas
  */
+
 public class GoogleService {
 
     /** Dependency injection. */
