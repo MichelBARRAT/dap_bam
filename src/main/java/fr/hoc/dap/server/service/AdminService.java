@@ -9,9 +9,17 @@ import com.google.api.client.auth.oauth2.StoredCredential;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.util.store.DataStore;
 
+/** Service to display admin service.
+ * @author jack et michette
+ */
 @Service
 public class AdminService extends GoogleService {
 
+    /** Get data store.
+     * @return data store.
+     * @throws GeneralSecurityException cannot connect to google sever.
+     * @throws IOException if the credentials.json file cannot be found.
+     */
     public DataStore<StoredCredential> getCredentialMap() throws GeneralSecurityException, IOException {
         GoogleAuthorizationCodeFlow flow = getFlow();
 
@@ -20,4 +28,27 @@ public class AdminService extends GoogleService {
         return datas;
     }
 
+    /** Delete an account.
+     * @param userKey which user wanted access.
+     * @throws GeneralSecurityException cannot connect to google sever.
+     * @throws IOException if the credentials.json file cannot be found.
+     */
+    public void delCredential(final String userKey) throws GeneralSecurityException, IOException {
+        GoogleAuthorizationCodeFlow flow = getFlow();
+        flow.getCredentialDataStore().delete(userKey);
+    }
+
+    /** Change our user name.
+     * @param userKey which user wanted access.
+     * @param newUserKey new user name for change it.
+     * @throws GeneralSecurityException cannot connect to google sever.
+     * @throws IOException if the credentials.json file cannot be found.
+     */
+    public void changeCredential(final String userKey, final String newUserKey)
+            throws GeneralSecurityException, IOException {
+        GoogleAuthorizationCodeFlow flow = getFlow();
+        StoredCredential userCredentials = flow.getCredentialDataStore().get(userKey);
+        flow.getCredentialDataStore().set(newUserKey, userCredentials);
+        flow.getCredentialDataStore().delete(userKey);
+    }
 }

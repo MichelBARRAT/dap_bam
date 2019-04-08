@@ -1,22 +1,39 @@
 <html>
 <head>
 <title>Admin Panel</title>
-<link th:href="@{css/dap.css}" rel="stylesheet"
-	href="../static/css/dap.css">
+<!--<link rel="stylesheet" href="../css/dap.css" th:href="@{css/dap.css}"> -->
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css"
+	integrity="sha384-PDle/QlgIONtM1aqA2Qemk5gPOE7wFq8+Em+G/hmo5Iq0CCmYZLv3fVRDJ4MMwEA"
+	crossorigin="anonymous">
+<script th:src="@{js/dap.js}" type="text/javascript"
+	src="../static/js/dap.js"></script>
 </head>
 <body>
-	<span>salut </span>
-
-	<table border=1>
-		<tr>
-			<td>Utilisateurs</td>
-			<td>Acces Token</td>
-			<td>Refresh Token</td>
-			<td>Expriration/jour</td>
-		</tr>
-		<tr th:each="userData : ${Map}">
-			<td th:each="user : ${userData}" th:text="${user}"></td>
-		</tr>
-	</table>
+	<div class="container-fluid">
+		<div class="row">
+			<table
+				class="table table-bordered table-striped offset-lg-1 col-lg-10">
+				<thead>
+				<tr>
+					<td class="col-lg-1 align-middle text-center">Utilisateurs</td>
+					<td class="col-lg-3 align-middle text-center">Acces Token</td>
+					<td class="col-lg-3 align-middle text-center">Refresh Token</td>
+					<td class="col-lg-1 align-middle text-center">Expir/jour</td>
+					<td class="col-lg-1 align-middle text-center">Delete</td>
+				</tr>
+				 </thead>
+				 <tbody>
+				<tr th:each="userData : ${map}">
+					<td class="col-lg-1 align-middle text-center" th:text="${userData.key}"></td>
+					<td class="col-lg-3 align-middle text-center" th:text="${userData.value.accessToken}"></td>
+					<td class="col-lg-3 align-middle text-center" th:text="${userData.value.refreshToken}"></td>
+					<td class="col-lg-1 align-middle text-center" th:text="${userData.value.expirationTimeMilliseconds / 86400000}"></td>
+					<td class="col-le-1 align-middle text-center"><a th:href="@{/delete(userKey=${userData.key})}">Supprimer</td>
+				</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
 </body>
 </html>
