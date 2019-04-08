@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class ServerLaunch {
     /** Logs.*/
-    private static final Logger LOG = LogManager.getLogger("HelloWorld");
+    private static final Logger LOG = LogManager.getLogger("Config parameters");
 
     /** Starting point.
      * @param args put parameters.
