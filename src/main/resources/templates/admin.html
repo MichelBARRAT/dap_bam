@@ -5,6 +5,7 @@
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css"
 	integrity="sha384-PDle/QlgIONtM1aqA2Qemk5gPOE7wFq8+Em+G/hmo5Iq0CCmYZLv3fVRDJ4MMwEA"
 	crossorigin="anonymous">
+<link rel="stylesheet" th:href="@{css/dap.css}" href="./css/dap.css">
 <script th:src="@{js/dap.js}" type="text/javascript"
 	src="../static/js/dap.js"></script>
 </head>
@@ -13,38 +14,42 @@
 		<a class="navbar-brand" href="">Menu Administrateur</a>
 		<div class="collapse navbar-collapse" id="navbarNavDropdown">
 			<ul class="navbar-nav">
-				<li class="nav-item active"><a class="nav-link" href="#email" onclick="myJsFunc()">Email</a></li>
-				<li class="nav-item active"><a class="nav-link" href="#event" onclick="myJsFunc2()">Event</a></li>
-				<li class="nav-item active"><a class="nav-link" href="#change" onclick="myJsFunc3()">Modifier utilisateur</a></li>
+				<li class="nav-item active"><a class="nav-link" href="#email"
+					onclick="userGmail()">Email</a></li>
+				<li class="nav-item active"><a class="nav-link" href="#event"
+					onclick="userEvent()">Event</a></li>
+				<li class="nav-item active"><a class="nav-link" href="#change"
+					onclick="userRename()">Modifier utilisateur</a></li>
 		</div>
 	</nav>
 	<div class="container-fluid">
-		<div class="row">
-			<table
-				class="table table-bordered table-striped offset-lg-1 col-lg-10">
+	<div class="row">
+		<div class="table">
+			<table class="table-bordered table-striped offset-lg-1 col-lg-10">
 				<thead>
 					<tr>
-						<td class="col-lg-1 align-middle text-center">Utilisateurs</td>
-						<td class="col-lg-3 align-middle text-center">Acces Token</td>
-						<td class="col-lg-3 align-middle text-center">Refresh Token</td>
-						<td class="col-lg-1 align-middle text-center">Expir/jour</td>
-						<td class="col-lg-1 align-middle text-center">Delete</td>
+						<td class="align-middle text-center">Utilisateurs</td>
+						<td class="align-middle text-center">Acces Token</td>
+						<td class="align-middle text-center">Refresh Token</td>
+						<td class="align-middle text-center">Expir/jour</td>
+						<td class="align-middle text-center">Delete</td>
 					</tr>
 				</thead>
+
 				<tbody>
 					<tr th:each="userData : ${map}">
-						<td class="col-lg-1 align-middle text-center"
-							th:text="${userData.key}"></td>
-						<td class="col-lg-3 align-middle text-center"
+						<td class="align-middle text-center" th:text="${userData.key}"></td>
+						<td class="align-middle text-center"
 							th:text="${userData.value.accessToken}"></td>
-						<td class="col-lg-3 align-middle text-center"
+						<td class="align-middle text-center"
 							th:text="${userData.value.refreshToken}"></td>
-						<td class="col-lg-1 align-middle text-center"
+						<td class="align-middle text-center"
 							th:text="${userData.value.expirationTimeMilliseconds / 86400000}"></td>
-						<td class="col-le-1 align-middle text-center"><a th:href="@{/delete(userKey=${userData.key})}">Supprimer</td>
+						<td class="align-middle text-center"><a th:href="@{/delete(userKey=${userData.key})}">X</a></td>
 					</tr>
 				</tbody>
 			</table>
+		</div>
 		</div>
 	</div>
 </body>
