@@ -6,11 +6,15 @@
 	<groupId>fr.hoc.dap</groupId>
 	<artifactId>server</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<name>dap_bam</name>
+	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<pmdVersion>6.4.0</pmdVersion>
+		<!-- TODO bam by Djer |Maven| la propriete "java.version" est un raccourci (Spring Boot) pour les deux suivantes. Elles sont donc redodnates-->
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<maven.compiler.source>1.8</maven.compiler.source>
+		
 		<java.version>1.8</java.version>
 	</properties>
 	<parent>
@@ -37,6 +41,7 @@
 			<artifactId>google-api-client</artifactId>
 			<version>1.23.0</version>
 		</dependency>
+		<!-- TODO bam by Djer |Maven| cette dependance n'est plus utiles depuis que l'on gèrenous même le "/OAuth2Credential" (mode "serveur")-->
 		<dependency>
 			<groupId>com.google.oauth-client</groupId>
 			<artifactId>google-oauth-client-jetty</artifactId>

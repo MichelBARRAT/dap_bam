@@ -16,6 +16,7 @@ import fr.hoc.dap.server.service.AccountExistService;
 @RestController
 public class AccountExistController {
 
+    //TODO bam by Djer |JavaDoc| Il faut documenter ton attribut, l'annotation est deja documentée (par Spring)
     /**Dependency injection. */
     @Autowired
     private AccountExistService ggService;
@@ -27,11 +28,9 @@ public class AccountExistController {
      * @throws GeneralSecurityException cannot connect to google sever.
      */
     @RequestMapping("/account/exist")
+    //TODO bam by Djer |JavaDoc| Pourrais être dans le GoogleAccount ?
     public Boolean accountNotExist(@RequestParam("userKey") final String userKey)
             throws IOException, GeneralSecurityException {
-
         return ggService.doesAccountExist(userKey);
-
     }
-
 }

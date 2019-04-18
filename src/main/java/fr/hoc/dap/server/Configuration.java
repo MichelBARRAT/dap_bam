@@ -4,6 +4,7 @@ package fr.hoc.dap.server;
  * @author Michette & Thomas
  */
 public class Configuration {
+    //TODO bam by Djer |JavaDoc| "Default application name" seerait mieux (idem pour la JavaDOc de touted les constantes)
     /** Application name. */
     private static final String APPLICATION_NAME = "Hoc DaP";
     /** Path to Home file. */
@@ -14,6 +15,8 @@ public class Configuration {
     private static final String CREDENTIALS_FILE_PATH = HOME_PATH + "/dap/credentials_web.json";
     /** Port call google. */
     private static final Integer PORT = 8888;
+
+    //TODO bam by Djer |JavaDoc| Evite les verbes d'action pour JavaDocumenté un attribut. "Application Name" est correct). Idem pour tous les attributs
     /** Initialize applicationname. */
     private String applicationName;
     /** Initialize tokendirectorypath. */
@@ -37,6 +40,7 @@ public class Configuration {
      * @return path to oAuth2 callback url
      */
     public String getoAuth2CallbackUrl() {
+      //TODO bam by Djer |Design Patern| Devrait etre en mode "Zero Conf" comme les autres attributs
         return "/oAuth2Callback";
     }
 
@@ -96,5 +100,4 @@ public class Configuration {
     public void setCredentialfilepath(final String credentialfilepath) {
         this.credentialFilePath = credentialfilepath;
     }
-
 }

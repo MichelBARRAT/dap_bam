@@ -30,11 +30,11 @@ import fr.hoc.dap.server.service.GoogleService;
  */
 @Controller
 public class GoogleAccount extends GoogleService {
-    /**.*/
+    /** logger.*/
     private static final Logger LOG = LogManager.getLogger("HelloWorld");
-    /** */
+    /** The first caracter to display for senssible datas (like Tokens). */
     private static final int SENSIBLE_DATA_FIRST_CHAR = 1;
-    /** */
+    /** The last caracter to display for senssible datas (like Tokens). */
     private static final int SENSIBLE_DATA_LAST_CHAR = 7;
 
     /** Handle the Google response.

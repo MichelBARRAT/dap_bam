@@ -29,6 +29,7 @@ import fr.hoc.dap.server.Configuration;
 
 public class GoogleService {
 
+    //TODO bam by Djer |JavaDoc| Il faut documenter ton attribut, l'annotation est deja documentée (par Spring)
     /** Dependency injection. */
     @Autowired
     private Configuration myConf;
@@ -37,6 +38,7 @@ public class GoogleService {
     protected static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
     /**Users Port selected for GOOGLE.*/
     //private static final Integer PORT = 8888;
+    //TODO bam by Djer |JavaDoc| Evite les verbes d'actions pour documenter les attributs, c'est en général "angiüe". "The list of scopes." serait mieu
     /**Create a list of scopes. */
     private static List<String> scopes;
 
@@ -48,14 +50,13 @@ public class GoogleService {
      */
     public Credential getCredentials(final String userKey) throws IOException, GeneralSecurityException {
         GoogleAuthorizationCodeFlow flow = getFlow();
-
         //LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(PORT).build();
         //return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
 
         return flow.loadCredential(userKey);
-
     }
 
+    //TODO bam by Djer |POO| les getter/setter vont vers la fin de la classe.
     /** Get actual configuration.
      * @return actual configuration.
      */
@@ -76,6 +77,7 @@ public class GoogleService {
      * @throws IOException if the credentials.json file cannot be found.
      */
     public GoogleAuthorizationCodeFlow getFlow() throws GeneralSecurityException, IOException {
+        //TODO bam by Djer |POO| Pas top de créer/alimenter ici, dans le constructeur ca serait mieu. A Chaque "getFlow" la liste va être reconstruite "pour rien"
         scopes = new ArrayList<String>();
         scopes.add(CalendarScopes.CALENDAR_READONLY);
         scopes.add(GmailScopes.GMAIL_READONLY);
@@ -94,5 +96,4 @@ public class GoogleService {
                         .setAccessType("offline").build();
         return flow;
     }
-
 }

@@ -26,22 +26,21 @@ public final class CalendarService extends GoogleService {
      * @throws IOException if the credentials.json file cannot be found.
      * @param userKey which user wanted access.
      */
+    //TODO bam by Djer |POO| "BuildService" serait mieu
     private Calendar getService(final String userKey) throws GeneralSecurityException, IOException {
         NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
         Calendar service = new Calendar.Builder(httpTransport, JSON_FACTORY, getCredentials(userKey))
                 .setApplicationName(getMyConf().getApplicationName()).build();
         return service;
-
     }
 
-    /** Display a list of next event.
-     * @return list of next event.
+    /** Display a list of next event(s). //TODO bam by Djer |JavaDoc| Ne "display" plus mais "retrieve"
+     * @return list of next event(s).
      * @throws GeneralSecurityException cannot connect to google sever.
      * @throws IOException if the credentials.json file cannot be found.
      * @param userKey which user wanted access.
      * @param nb number of event wanted by user.
      */
-
     public List<String> displayNextEvent(final Integer nb, final String userKey)
             throws IOException, GeneralSecurityException {
 
@@ -59,10 +58,8 @@ public final class CalendarService extends GoogleService {
                     start = event.getStart().getDate();
                 }
                 nextEvents.add(event.getSummary() + " " + start);
-
             }
         }
         return nextEvents;
     }
-
 }
