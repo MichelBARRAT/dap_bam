@@ -29,7 +29,7 @@ public class AdminService extends GoogleService {
     }
 
     /** Delete an account.
-     * @param userKey which user wanted access.
+     * @param userKey which user wanted access. //TODO bam by Djer |JavaDoc| NON "user name to DELETE"
      * @throws GeneralSecurityException cannot connect to google sever.
      * @throws IOException if the credentials.json file cannot be found.
      */
@@ -38,8 +38,8 @@ public class AdminService extends GoogleService {
         flow.getCredentialDataStore().delete(userKey);
     }
 
-    /** Change our user name.
-     * @param userKey which user wanted access.
+    /** Change our user name. //TODO bam by Djer |JavaDoc| Ce n'est pas "our" userName mais "a" username (en tant qu'admin on peut changer n'importe quel nom de compte)
+     * @param userKey which user wanted access. //TODO bam by Djer |JavaDoc| Non "current user name to be changed" serait mieu
      * @param newUserKey new user name for change it.
      * @throws GeneralSecurityException cannot connect to google sever.
      * @throws IOException if the credentials.json file cannot be found.

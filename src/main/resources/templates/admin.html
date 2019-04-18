@@ -43,8 +43,13 @@
 							th:text="${userData.value.accessToken}"></td>
 						<td class="align-middle text-center"
 							th:text="${userData.value.refreshToken}"></td>
-						<td class="align-middle text-center"
-							th:text="${userData.value.expirationTimeMilliseconds / 86400000}"></td>
+							<!-- //TODO bam by Djer |Thymeleaf| Provoque une erreur si ${userData.value.expirationTimeMilliseconds est NULL. -->
+						<!-- <td class="align-middle text-center"
+							th:text="${userData.value.expirationTimeMilliseconds / 86400000}"></td> -->
+							
+							<!-- Voici une proposition de correction -->
+							<td class="align-middle text-center"
+							th:text="${userData.value.expirationTimeMilliseconds != null} ? ${userData.value.expirationTimeMilliseconds/86400000} : 'Inconnu'"></td>
 						<td class="align-middle text-center"><a th:href="@{/delete(userKey=${userData.key})}">X</a></td>
 					</tr>
 				</tbody>

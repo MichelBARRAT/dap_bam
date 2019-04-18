@@ -25,6 +25,7 @@ public final class GmailService extends GoogleService {
      * @throws GeneralSecurityException cannot connect to google sever.
      * @throws IOException if the credentials.json file cannot be found.
      */
+    //TODO bam by Djer |POO| "BuildService" serait mieu
     public Gmail getService(final String userKey) throws GeneralSecurityException, IOException {
         NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
 
@@ -34,7 +35,7 @@ public final class GmailService extends GoogleService {
         return service;
     }
 
-    /** Display number of unread messages.
+    /** Display number of unread messages. //TODO bam by Djer |JavaDoc| Ne "display" plus mais "retrieve"
      * @param userKey which user wanted access.
      * @return list of messages match with the query.
      * @throws IOException IOException if the credentials.json file cannot be found.
@@ -55,9 +56,10 @@ public final class GmailService extends GoogleService {
      * @throws GeneralSecurityException cannot connect to google sever.
      */
     public int listMessagesMatchingQuery(final String userKey) throws IOException, GeneralSecurityException {
-
         String query = "is:unread";
         String userId = "me";
+
+        //TODO bam by Djer |Log4J| Une petite log ? "Searching for message with filter " + query + " for " + userKey
 
         ListMessagesResponse response = getService(userKey).users().messages().list(userId).setQ(query).execute();
         List<Message> messages = new ArrayList<Message>();
@@ -71,8 +73,6 @@ public final class GmailService extends GoogleService {
                 break;
             }
         }
-
         return messages.size();
     }
-
 }

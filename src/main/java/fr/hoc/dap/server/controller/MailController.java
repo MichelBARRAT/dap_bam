@@ -16,6 +16,7 @@ import fr.hoc.dap.server.service.GmailService;
 @RestController
 public class MailController {
 
+  //TODO bam by Djer |JavaDoc| Il faut documenter ton attribut, l'annotation est deja documentée (par Spring)
     /** Dependency injection. */
     @Autowired
     private GmailService gmService;
