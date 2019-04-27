@@ -1,50 +1,58 @@
 package fr.hoc.dap.server;
 
-/** Application 0conf.
+/**
+ * Application 0conf.
+ *
  * @author Michette & Thomas
  */
 public class Configuration {
-    //TODO bam by Djer |JavaDoc| "Default application name" seerait mieux (idem pour la JavaDOc de touted les constantes)
-    /** Application name. */
+    /** Default application name. */
     private static final String APPLICATION_NAME = "Hoc DaP";
-    /** Path to Home file. */
+    /** Default path to Home. */
     private static final String HOME_PATH = System.getProperty("user.home");
-    /** For use authentication permission. */
+    /** Default path tokens. */
     private static final String TOKENS_DIRECTORY_PATH = HOME_PATH + "/dap/tokens";
-    /** Path to the json file. */
+    /** Default path to the json file. */
     private static final String CREDENTIALS_FILE_PATH = HOME_PATH + "/dap/credentials_web.json";
-    /** Port call google. */
+    /** Default google oauth2 callback. */
+    private static final String OAUTH2_CALLBACK_URL = "/oAuth2Callback";
+    /** Default google call port. */
     private static final Integer PORT = 8888;
 
-    //TODO bam by Djer |JavaDoc| Evite les verbes d'action pour JavaDocumenté un attribut. "Application Name" est correct). Idem pour tous les attributs
     /** Initialize applicationname. */
     private String applicationName;
     /** Initialize tokendirectorypath. */
     private String tokensDirectoryPath;
-
     /** Initialize credentialfilepath. */
     private String credentialFilePath;
+    /** Initialize auth2CallbackURL. */
+    private String oauth2CallbackURL;
     /** Initialize port. */
     private Integer port;
 
-    /** Configuration builder with defaults value.
+    /**
+     * Configuration builder with defaults value.
      */
-    public Configuration() {
+    protected Configuration() {
         applicationName = APPLICATION_NAME;
         tokensDirectoryPath = TOKENS_DIRECTORY_PATH;
         credentialFilePath = CREDENTIALS_FILE_PATH;
+        oauth2CallbackURL = OAUTH2_CALLBACK_URL;
         port = PORT;
     }
 
-    /** Get path to oAuth2 callback url.
+    /**
+     * Get path to oAuth2 callback url.
+     *
      * @return path to oAuth2 callback url
      */
     public String getoAuth2CallbackUrl() {
-      //TODO bam by Djer |Design Patern| Devrait etre en mode "Zero Conf" comme les autres attributs
-        return "/oAuth2Callback";
+        return oauth2CallbackURL;
     }
 
-    /** Get application name in this configuration.
+    /**
+     * Get application name in this configuration.
+     *
      * @return application name in this configuration.
      */
     public String getApplicationName() {
@@ -52,52 +60,66 @@ public class Configuration {
 
     }
 
-    /** Get path to tokens files in this configuration.
+    /**
+     * Get path to tokens files in this configuration.
+     *
      * @return path to tokens files in this configuration.
      */
     public String getTokensDirectoryPath() {
         return tokensDirectoryPath;
     }
 
-    /** Get path to credential files in this configuration.
+    /**
+     * Get path to credential files in this configuration.
+     *
      * @return path to credential files in this configuration.
      */
     public String getCredentialsFilePath() {
         return credentialFilePath;
     }
 
-    /** Get port in this configuration.
+    /**
+     * Get port in this configuration.
+     *
      * @return port in this configuration.
      */
-    public Integer getPort() {
+    protected Integer getPort() {
         return port;
     }
 
-    /** Get home path.
-     *  @return home path.
+    /**
+     * Get home path.
+     *
+     * @return home path.
      */
-    public static String getHomePath() {
+    protected static String getHomePath() {
         return HOME_PATH;
     }
 
-    /** Set application name in this configuration .
+    /**
+     * Set application name in this configuration .
+     *
      * @param applicationname application name in this configuration .
      */
-    public void setApplicationName(final String applicationname) {
+    protected void setApplicationName(final String applicationname) {
         this.applicationName = applicationname;
     }
 
-    /** Set path to tokens files in this configuration .
+    /**
+     * Set path to tokens files in this configuration .
+     *
      * @param tokensdirectorypath tokens path in this configuration .
      */
-    public void setTokensdirectorypath0(final String tokensdirectorypath) {
+    protected void setTokensdirectorypath0(final String tokensdirectorypath) {
         this.tokensDirectoryPath = tokensdirectorypath;
     }
 
-    /** Set path to credential files in this configuration .
+    /**
+     * Set path to credential files in this configuration .
+     *
      * @param credentialfilepath credential path in this configuration .
      */
-    public void setCredentialfilepath(final String credentialfilepath) {
+    protected void setCredentialfilepath(final String credentialfilepath) {
         this.credentialFilePath = credentialfilepath;
     }
 }

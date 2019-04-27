@@ -23,61 +23,26 @@ import com.google.api.services.people.v1.PeopleServiceScopes;
 
 import fr.hoc.dap.server.Configuration;
 
-/** Service to stock Credentials.
+/**
+ * Service to stock Credentials.
+ *
  * @author Michette & Thomas
  */
-
 public class GoogleService {
-
-    //TODO bam by Djer |JavaDoc| Il faut documenter ton attribut, l'annotation est deja documentée (par Spring)
-    /** Dependency injection. */
+    /** Initialize Configuration instance. */
     @Autowired
     private Configuration myConf;
-
-    /** Make an instance of Json Factory. */
-    protected static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
-    /**Users Port selected for GOOGLE.*/
-    //private static final Integer PORT = 8888;
-    //TODO bam by Djer |JavaDoc| Evite les verbes d'actions pour documenter les attributs, c'est en général "angiüe". "The list of scopes." serait mieu
-    /**Create a list of scopes. */
+    /** Instance of Json Factory. */
+    private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
+    /** The list of scopes. */
     private static List<String> scopes;
 
-    /** Get Credential for user connection.
-     * @param userKey which user wanted access.
-     * @return an authorized Credential object.
-     * @throws IOException IOException if the credentials.json file cannot be found.
-     * @throws GeneralSecurityException cannot connect to google sever.
+    /**
+     * GoogleService constructor.
+     *
+     * Create the list of scopes.
      */
-    public Credential getCredentials(final String userKey) throws IOException, GeneralSecurityException {
-        GoogleAuthorizationCodeFlow flow = getFlow();
-        //LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(PORT).build();
-        //return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
-
-        return flow.loadCredential(userKey);
-    }
-
-    //TODO bam by Djer |POO| les getter/setter vont vers la fin de la classe.
-    /** Get actual configuration.
-     * @return actual configuration.
-     */
-    protected Configuration getMyConf() {
-        return myConf;
-    }
-
-    /** Set actual configuration.
-     * @param myconf acual configuration.
-     */
-    public void setMyConf(final Configuration myconf) {
-        this.myConf = myconf;
-    }
-
-    /** Build a google Flow.
-     * @return a configured Google flow .
-     * @throws GeneralSecurityException cannot connect to google sever.
-     * @throws IOException if the credentials.json file cannot be found.
-     */
-    public GoogleAuthorizationCodeFlow getFlow() throws GeneralSecurityException, IOException {
-        //TODO bam by Djer |POO| Pas top de créer/alimenter ici, dans le constructeur ca serait mieu. A Chaque "getFlow" la liste va être reconstruite "pour rien"
+    protected GoogleService() {
         scopes = new ArrayList<String>();
         scopes.add(CalendarScopes.CALENDAR_READONLY);
         scopes.add(GmailScopes.GMAIL_READONLY);
@@ -85,7 +50,45 @@ public class GoogleService {
         scopes.add(PeopleServiceScopes.CONTACTS_READONLY);
         scopes.add(PeopleServiceScopes.USER_EMAILS_READ);
         scopes.add(PeopleServiceScopes.USERINFO_PROFILE);
+    }
 
+    /**
+     * @param userKey which user wanted access.
+     * @return account exist true/false.
+     * @throws IOException              if the credentials.json file cannot be found.
+     * @throws GeneralSecurityException cannot connect to google sever.
+     */
+    protected Boolean doesAccountExist(final String userKey) throws IOException, GeneralSecurityException {
+        final Credential credential = getCredentials(userKey);
+        Boolean answer = false;
+        if (null != credential && null != credential.getAccessToken()) {
+            answer = true;
+        }
+        return answer;
+    }
+
+    /**
+     * Get Credential for user connection.
+     *
+     * @param userKey which user wanted access.
+     * @return an authorized Credential object.
+     * @throws IOException              IOException if the credentials.json file cannot be found.
+     * @throws GeneralSecurityException cannot connect to google sever.
+     */
+    protected Credential getCredentials(final String userKey) throws IOException, GeneralSecurityException {
+        GoogleAuthorizationCodeFlow flow = getFlow();
+        // return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
+        return flow.loadCredential(userKey);
+    }
+
+    /**
+     * Build a google Flow.
+     *
+     * @return a configured Google flow .
+     * @throws GeneralSecurityException cannot connect to google sever.
+     * @throws IOException              if the credentials.json file cannot be found.
+     */
+    protected GoogleAuthorizationCodeFlow getFlow() throws GeneralSecurityException, IOException {
         NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
         File in = new java.io.File(myConf.getCredentialsFilePath());
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new FileReader(in));
@@ -95,5 +98,30 @@ public class GoogleService {
                                 new FileDataStoreFactory(new java.io.File(myConf.getTokensDirectoryPath())))
                         .setAccessType("offline").build();
         return flow;
+    }
+
+    /**
+     * Get actual configuration.
+     *
+     * @return actual configuration.
+     */
+    protected Configuration getMyConf() {
+        return myConf;
+    }
+
+    /**
+     * Set actual configuration.
+     *
+     * @param myconf acual configuration.
+     */
+    protected void setMyConf(final Configuration myconf) {
+        this.myConf = myconf;
+    }
+
+    /**
+     * @return JSON_FACTORY.
+     */
+    protected static JsonFactory getJsonFactory() {
+        return JSON_FACTORY;
     }
 }

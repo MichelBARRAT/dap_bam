@@ -14,36 +14,40 @@ import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.Events;
 
-/** Service to display next event of the user.
+/**
+ * Service to display next event of the user.
+ *
  * @author Michette & Thomas
  */
 @Service
 public final class CalendarService extends GoogleService {
 
-    /** Get calendar service.
+    /**
+     * Build calendar service.
+     *
      * @return calendar service instance.
      * @throws GeneralSecurityException cannot connect to google sever.
-     * @throws IOException if the credentials.json file cannot be found.
+     * @throws IOException              if the credentials.json file cannot be found.
      * @param userKey which user wanted access.
      */
-    //TODO bam by Djer |POO| "BuildService" serait mieu
     private Calendar getService(final String userKey) throws GeneralSecurityException, IOException {
         NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
-        Calendar service = new Calendar.Builder(httpTransport, JSON_FACTORY, getCredentials(userKey))
+        Calendar service = new Calendar.Builder(httpTransport, getJsonFactory(), getCredentials(userKey))
                 .setApplicationName(getMyConf().getApplicationName()).build();
         return service;
     }
 
-    /** Display a list of next event(s). //TODO bam by Djer |JavaDoc| Ne "display" plus mais "retrieve"
+    /**
+     * Retrieve a list of next event(s).
+     *
      * @return list of next event(s).
      * @throws GeneralSecurityException cannot connect to google sever.
-     * @throws IOException if the credentials.json file cannot be found.
+     * @throws IOException              if the credentials.json file cannot be found.
      * @param userKey which user wanted access.
-     * @param nb number of event wanted by user.
+     * @param nb      number of event wanted by user.
      */
     public List<String> displayNextEvent(final Integer nb, final String userKey)
             throws IOException, GeneralSecurityException {
-
         List<String> nextEvents = new ArrayList<String>();
         DateTime now = new DateTime(System.currentTimeMillis());
         Events events = getService(userKey).events().list("primary").setMaxResults(nb).setTimeMin(now)

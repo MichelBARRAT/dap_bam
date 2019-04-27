@@ -11,28 +11,29 @@ import org.springframework.web.bind.annotation.RestController;
 
 import fr.hoc.dap.server.service.CalendarService;
 
-/** Manage calendar service.
+/**
+ * Manage calendar service.
+ *
  * @author Michette & Thomas
  */
 @RestController
 public class EventController {
-
-    //TODO bam by Djer |JavaDoc| Il faut documenter ton attribut, l'annotation est deja documentée (par Spring)
-    /** Dependency injection. */
+    /** Initialize CalendarService instance. */
     @Autowired
     private CalendarService gcService;
 
-    /** Display next event in server client.
+    /**
+     * Display next event in server client.
+     *
      * @param userKey which user wanted access.
-     * @param nb number of event wanted by user.
+     * @param nb      number of event wanted by user.
      * @return list of next event(s).
-     * @throws IOException if the credentials.json file cannot be found.
+     * @throws IOException              if the credentials.json file cannot be found.
      * @throws GeneralSecurityException cannot connect to google sever.
      */
     @RequestMapping("/event/next")
-    public List<String> displayNextEvent(@RequestParam(value = "nb", defaultValue = "1") final Integer nb,
+    private List<String> displayNextEvent(@RequestParam(value = "nb", defaultValue = "1") final Integer nb,
             @RequestParam("userKey") final String userKey) throws IOException, GeneralSecurityException {
         return gcService.displayNextEvent(nb, userKey);
     }
-
 }
