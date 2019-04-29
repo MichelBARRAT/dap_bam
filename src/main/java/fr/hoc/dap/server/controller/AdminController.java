@@ -19,11 +19,11 @@ import fr.hoc.dap.server.service.AdminService;
 /**
  * Manage Admin service.
  *
- * @author jack et michette
+ * @author Michette & Thomas
  */
 @Controller
 public class AdminController {
-    /** Initialize AdminService instance. */
+    /** AdminService instance. */
     @Autowired
     private AdminService admService;
 

@@ -19,15 +19,15 @@ public class Configuration {
     /** Default google call port. */
     private static final Integer PORT = 8888;
 
-    /** Initialize applicationname. */
+    /** applicationname. */
     private String applicationName;
-    /** Initialize tokendirectorypath. */
+    /** tokendirectorypath. */
     private String tokensDirectoryPath;
-    /** Initialize credentialfilepath. */
+    /** credentialfilepath. */
     private String credentialFilePath;
-    /** Initialize auth2CallbackURL. */
+    /** auth2CallbackURL. */
     private String oauth2CallbackURL;
-    /** Initialize port. */
+    /** port. */
     private Integer port;
 
     /**

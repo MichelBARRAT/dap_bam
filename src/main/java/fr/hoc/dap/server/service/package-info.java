@@ -1,6 +1,6 @@
 /**
  * Package Service Application.
  *
- * @author jack et michette
+ * @author Michette & Thomas
  */
 package fr.hoc.dap.server.service;

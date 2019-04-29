@@ -18,7 +18,7 @@ import fr.hoc.dap.server.service.CalendarService;
  */
 @RestController
 public class EventController {
-    /** Initialize CalendarService instance. */
+    /** CalendarService instance. */
     @Autowired
     private CalendarService gcService;
 

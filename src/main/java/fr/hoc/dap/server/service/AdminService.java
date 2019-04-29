@@ -12,7 +12,7 @@ import com.google.api.client.util.store.DataStore;
 /**
  * Service to display admin service.
  *
- * @author jack et michette
+ * @author Michette & Thomas
  */
 @Service
 public class AdminService extends GoogleService {

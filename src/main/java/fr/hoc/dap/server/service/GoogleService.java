@@ -29,7 +29,7 @@ import fr.hoc.dap.server.Configuration;
  * @author Michette & Thomas
  */
 public class GoogleService {
-    /** Initialize Configuration instance. */
+    /** Configuration instance. */
     @Autowired
     private Configuration myConf;
     /** Instance of Json Factory. */

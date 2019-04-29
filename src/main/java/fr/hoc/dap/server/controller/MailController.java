@@ -17,7 +17,7 @@ import fr.hoc.dap.server.service.GmailService;
  */
 @RestController
 public class MailController {
-    /** Initialize GmailService instance. */
+    /** GmailService instance. */
     @Autowired
     private GmailService gmService;
 
