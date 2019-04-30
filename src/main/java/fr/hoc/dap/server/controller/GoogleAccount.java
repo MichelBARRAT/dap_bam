@@ -217,6 +217,7 @@ import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.api.client.auth.oauth2.AuthorizationCodeRequestUrl;
 import com.google.api.client.auth.oauth2.AuthorizationCodeResponseUrl;
@@ -357,7 +358,6 @@ public class GoogleAccount extends GoogleService {
         try {
             flow = super.getFlow();
             credential = flow.loadCredential(userId);
-
             if (credential != null && credential.getAccessToken() != null) {
                 response = "AccountAlreadyAdded";
             } else {
@@ -372,5 +372,20 @@ public class GoogleAccount extends GoogleService {
             LOG.error("Error while loading credential (or Google Flow)", e);
         }
         return response;
+    }
+
+    /**
+     * retrieve if account exist.
+     *
+     * @param userKey which user wanted access.
+     * @return account exist true/false.
+     * @throws IOException              if the credentials.json file cannot be found.
+     * @throws GeneralSecurityException cannot connect to google sever.
+     */
+    @RequestMapping("/account/exist")
+    @ResponseBody
+    public Boolean accountNotExist(@RequestParam("userKey") final String userKey)
+            throws IOException, GeneralSecurityException {
+        return super.doesAccountExist(userKey);
     }
 }

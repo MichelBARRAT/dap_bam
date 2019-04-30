@@ -238,8 +238,8 @@ public class TestController {
     // http://localhost:8080/test?loginName=thomas&userKey=test
 
     /**
-     * @param userKey TODO
-     * @return TODO
+     * @param userKey userKey
+     * @return null
      */
     @RequestMapping("/test/loadDapUser")
     private DapUser loadDapUser(@RequestParam("userKey") final String userKey) {

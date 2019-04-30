@@ -243,7 +243,7 @@ public class ServerLaunch {
     }
 
     /**
-     * Launch server client.
+     * Launch server.
      *
      * @param ctx put application context.
      * @return server client.

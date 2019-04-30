@@ -261,7 +261,7 @@ public class GoogleService {
      * @throws IOException              if the credentials.json file cannot be found.
      * @throws GeneralSecurityException cannot connect to google sever.
      */
-    protected Boolean doesAccountExist(final String userKey) throws IOException, GeneralSecurityException {
+    public Boolean doesAccountExist(final String userKey) throws IOException, GeneralSecurityException {
         final Credential credential = getCredentials(userKey);
         Boolean answer = false;
         if (null != credential && null != credential.getAccessToken()) {
