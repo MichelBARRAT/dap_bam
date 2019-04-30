@@ -201,63 +201,70 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package fr.hoc.dap.server.service;
+package fr.hoc.dap.server.data;
 
-import java.io.IOException;
-import java.security.GeneralSecurityException;
-
-import org.springframework.stereotype.Service;
-
-import com.google.api.client.auth.oauth2.StoredCredential;
-import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
-import com.google.api.client.util.store.DataStore;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 /**
- * Service to display admin service.
+ * Contains all attributes for a DaP user.
  *
  * @author Michel BARRAT && Thomas TAVERNIER
  */
-@Service
-public class AdminService extends GoogleService {
+@Entity
+public class DapUser {
+    /** DaP User Id. */
+    @Id
+    @GeneratedValue
+    private Long id;
+    /** DaP UserKey (to store in Google Credentials. */
+    @Column(nullable = false, unique = true)
+    private String userKey;
+    /** DaP User login name. */
+    @Column(nullable = false)
+    private String loginName;
 
     /**
-     * Get data store.
-     *
-     * @return data store.
-     * @throws GeneralSecurityException cannot connect to google sever.
-     * @throws IOException              if the credentials.json file cannot be found.
+     * @return DaP user Id
      */
-    public DataStore<StoredCredential> getCredentialMap() throws GeneralSecurityException, IOException {
-        GoogleAuthorizationCodeFlow flow = getFlow();
-        DataStore<StoredCredential> datas = flow.getCredentialDataStore();
-        return datas;
+    public Long getId() {
+        return id;
     }
 
     /**
-     * Delete an account.
-     *
-     * @param userKey user name to delete.
-     * @throws GeneralSecurityException cannot connect to google sever.
-     * @throws IOException              if the credentials.json file cannot be found.
+     * @param newUserId DaP user id
      */
-    public void delCredential(final String userKey) throws GeneralSecurityException, IOException {
-        GoogleAuthorizationCodeFlow flow = getFlow();
-        flow.getCredentialDataStore().delete(userKey);
+    public void setId(final Long newUserId) {
+        this.id = newUserId;
     }
 
     /**
-     * Change a user name.
-     *
-     * @param userKey    current user name to be changed.
-     * @param newUserKey new user name for change it.
-     * @throws GeneralSecurityException cannot connect to google sever.
-     * @throws IOException              if the credentials.json file cannot be found.
+     * @return userKey DaP userKey
      */
-    public void changeCredential(final String userKey, final String newUserKey)
-            throws GeneralSecurityException, IOException {
-        GoogleAuthorizationCodeFlow flow = getFlow();
-        StoredCredential userCredentials = flow.getCredentialDataStore().get(userKey);
-        flow.getCredentialDataStore().set(newUserKey, userCredentials);
-        flow.getCredentialDataStore().delete(userKey);
+    public String getUserKey() {
+        return userKey;
+    }
+
+    /**
+     * @param newUserKey DaP userKey
+     */
+    public void setUserKey(final String newUserKey) {
+        this.userKey = newUserKey;
+    }
+
+    /**
+     * @return DaP login name
+     */
+    public String getLoginName() {
+        return loginName;
+    }
+
+    /**
+     * @param newLoginName DaP login name
+     */
+    public void setLoginName(final String newLoginName) {
+        this.loginName = newLoginName;
     }
 }

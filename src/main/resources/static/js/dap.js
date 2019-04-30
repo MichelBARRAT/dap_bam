@@ -1,14 +1,19 @@
 userGmail = function() {
-	email=prompt("Utilisateur ?");
+	email = prompt("Utilisateur ?");
 	window.open("http://localhost:8080/email/nbunread?userKey=" + email);
 }
+
 userEvent = function() {
-	event=prompt("Utilisateur ?");
+	event = prompt("Utilisateur ?");
 	window.open("http://localhost:8080/event/next?userKey=" + event);
 }
+
 userRename = function() {
-	user=prompt("Utilisateur ?");
-	newuser=prompt("Nouvel Utilisateur ?")
-	newuser=newuser.replace( /[^a-zA-Z]/ , "");
-	window.open("http://localhost:8080/changeUserName?userKey="+ user +"&newUserKey=" + newuser, "_self" );
+	user = prompt("Utilisateur ?");
+	newUser = prompt("Nouvel Utilisateur ?")
+	if (newUser !== null && newUser !== "") {
+		newUser = newUser.replace(/[^a-zA-Z0-9]/g, "");
+		window.open("http://localhost:8080/changeUserName?userKey=" + user
+				+ "&newUserKey=" + newUser, "_self");
+	}
 }
