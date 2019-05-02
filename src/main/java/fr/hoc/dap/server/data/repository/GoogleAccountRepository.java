@@ -201,49 +201,29 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package fr.hoc.dap.server.controller;
+package fr.hoc.dap.server.data.repository;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import java.util.List;
 
-import fr.hoc.dap.server.data.DapUser;
-import fr.hoc.dap.server.data.DapUserRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
+
+import fr.hoc.dap.server.data.entity.GoogleAccount;
 
 /**
+ * Manage access for google account in database.
  *
  * @author Michel BARRAT && Thomas TAVERNIER
  */
-@RestController
-public class TestController {
-    /** . */
-    @Autowired
-    private DapUserRepository repo;
+public interface GoogleAccountRepository extends CrudRepository<GoogleAccount, Long> {
 
     /**
-     * @param loginName loginName
-     * @param userKey   userKey
-     * @return test result
+     * Get list of google accounts of loginName.
+     *
+     * @param loginName DaP login Name
+     * @return list of google accounts
      */
-    @RequestMapping("/test")
-    private Iterable<DapUser> test(@RequestParam("loginName") final String loginName,
-            @RequestParam("userKey") final String userKey) {
-        DapUser user = new DapUser();
-        user.setLoginName(loginName);
-        user.setUserKey(userKey);
-        repo.save(user);
-        return repo.findAll();
-    }
-    // http://localhost:8080/test?loginName=thomas&userKey=test
-
-    /**
-     * @param userKey userKey
-     * @return null
-     */
-    @RequestMapping("/test/loadDapUser")
-    private DapUser loadDapUser(@RequestParam("userKey") final String userKey) {
-        // return repo.findDapUser(userKey);
-        return null;
-    }
+    @Query("select accounts from GoogleAccount accounts where accounts.owner.loginName = :loginName")
+    List<GoogleAccount> findByLoginName(@Param("loginName") String loginName);
 }
