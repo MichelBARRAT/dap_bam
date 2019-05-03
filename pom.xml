@@ -5,8 +5,8 @@
 
     <groupId>fr.hoc.dap</groupId>
     <artifactId>server</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
-    <name>dap_bam</name>
+    <version>1.0.1-SNAPSHOT</version>
+    <name>dap_server</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
