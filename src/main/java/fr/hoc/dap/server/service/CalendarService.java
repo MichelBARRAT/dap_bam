@@ -269,69 +269,44 @@ public final class CalendarService extends GoogleService {
      * @param userKey which user wanted access.
      * @param nb      number of event wanted by user.
      */
-    public List<String> displayNextEvent(final Integer nb, final String userKey)
-            throws IOException, GeneralSecurityException {
-        List<String> nextEvents = new ArrayList<String>();
-        DateTime now = new DateTime(System.currentTimeMillis());
-        Events events = getService(userKey).events().list("primary").setMaxResults(nb).setTimeMin(now)
-                .setOrderBy("startTime").setSingleEvents(true).execute();
-        List<Event> items = events.getItems();
-        if (items.isEmpty()) {
-            nextEvents.add("No events found");
-        } else {
-            for (Event event : items) {
-                DateTime start = event.getStart().getDateTime();
-                if (start == null) {
-                    start = event.getStart().getDate();
-                }
-                nextEvents.add(event.getSummary() + " " + start);
-            }
-        }
-        return nextEvents;
-    }
-
-    /**
-     * TODO JavaDoc.
-     *
-     * @param userKey TODO JavaDoc.
-     * @param nb      TODO JavaDoc.
-     * @return TODO JavaDoc.
-     */
-    private HashMap<String, Object> retrieveNextEvents(final String userKey, final Integer nb) {
+    public HashMap<String, Object> retrieveNextEventMap(final Integer nb, final String userKey) {
+        HashMap<String, Object> response = null;
+        Events events = null;
         List<Date> dateList = new ArrayList<Date>();
         List<String> textList = new ArrayList<String>();
-        HashMap<String, Object> response = new HashMap<String, Object>();
-        response.put("dateList", dateList);
-        response.put("textList", textList);
-        String events = null;
-        String[] eventsList;
+        DateTime now = new DateTime(System.currentTimeMillis());
         try {
-            events = displayNextEvent(nb, userKey).toString();
+            events = getService(userKey).events().list("primary").setMaxResults(nb).setTimeMin(now)
+                    .setOrderBy("startTime").setSingleEvents(true).execute();
         } catch (IOException | GeneralSecurityException e1) {
             // TODO Auto-generated catch block
             e1.printStackTrace();
         }
-
-        events = events.substring(2, events.length() - 2);
-        eventsList = events.split("\",\"");
-        for (String eachEvent : eventsList) {
-            try {
-                String event;
-                String dateString;
-                Date date;
-                event = eachEvent.substring(0, eachEvent.lastIndexOf(" "));
-                dateString = eachEvent.substring(eachEvent.lastIndexOf(" "));
-                if (dateString.length() < LENGTH_IF_HOURS) {
-                    date = DATE_FORMAT_WITHOUT_HOURS.parse(dateString);
-                } else {
-                    date = DATE_FORMAT_WITH_HOURS.parse(dateString);
+        List<Event> eventsList = events.getItems();
+        if (!eventsList.isEmpty()) {
+            response = new HashMap<String, Object>();
+            response.put("dateList", dateList);
+            response.put("textList", textList);
+            for (Event event : eventsList) {
+                DateTime start = event.getStart().getDateTime();
+                Date date = null;
+                String text;
+                text = event.getSummary();
+                if (text == null) {
+                    text = "(Sans titre)";
                 }
+                try {
+                    if (start == null) {
+                        start = event.getStart().getDate();
+                        date = DATE_FORMAT_WITHOUT_HOURS.parse(start.toString());
+                    } else {
+                        date = DATE_FORMAT_WITH_HOURS.parse(start.toString());
+                    }
+                } catch (ParseException e) {
+                    // TODO handle exception
+                }
+                textList.add(text);
                 dateList.add(date);
-                textList.add(event);
-            } catch (ParseException e) {
-                LOG.error("parse date error ", e);
-            } catch (StringIndexOutOfBoundsException e) {
-                LOG.error("substring error ", e);
             }
         }
         return response;
@@ -356,9 +331,8 @@ public final class CalendarService extends GoogleService {
             return response;
         }
         response = new ArrayList<String>();
-
         for (String userKey : userKeyList) {
-            eventsMap = retrieveNextEvents(userKey, nb);
+            eventsMap = retrieveNextEventMap(nb, userKey);
             dateList = (List<Date>) eventsMap.get("dateList");
             textList = (List<String>) eventsMap.get("textList");
             for (Integer listIndex = 0; listIndex < dateList.size(); listIndex++) {
@@ -378,9 +352,6 @@ public final class CalendarService extends GoogleService {
             }
             Date date = dateTotalList.get(totalListIndex);
             String text = textTotalList.get(totalListIndex);
-            if (text.equals("null")) {
-                text = "(Sans titre)";
-            }
             if (date.toString().length() < LENGTH_IF_HOURS) {
                 response.add(text + " le " + FORMATATTER_WITHOUT_HOURS.format(date));
             } else {

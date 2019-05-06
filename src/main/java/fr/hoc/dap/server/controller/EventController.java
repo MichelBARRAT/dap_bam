@@ -225,20 +225,20 @@ public class EventController {
     @Autowired
     private CalendarService gcService;
 
-    /**
-     * Display next event in server client.
-     *
-     * @param userKey which user wanted access.
-     * @param nb      number of event wanted by user.
-     * @return list of next event(s).
-     * @throws IOException              if the credentials.json file cannot be found.
-     * @throws GeneralSecurityException cannot connect to google sever.
-     */
-    @RequestMapping("/event/next")
-    private List<String> displayNextEvent(@RequestParam(value = "nb", defaultValue = "1") final Integer nb,
-            @RequestParam("userKey") final String userKey) throws IOException, GeneralSecurityException {
-        return gcService.displayNextEvent(nb, userKey);
-    }
+//    /**
+//     * Display next event in server client.
+//     *
+//     * @param userKey which user wanted access.
+//     * @param nb      number of event wanted by user.
+//     * @return list of next event(s).
+//     * @throws IOException              if the credentials.json file cannot be found.
+//     * @throws GeneralSecurityException cannot connect to google sever.
+//     */
+//    @RequestMapping("/event/next")
+//    private HashMap<String, Object> displayNextEvent(@RequestParam(value = "nb", defaultValue = "1") final Integer nb,
+//            @RequestParam("userKey") final String userKey) throws IOException, GeneralSecurityException {
+//        return gcService.retrieveNextEventMap(nb, userKey);
+//    }
 
     /**
      * TODO JavaDoc.

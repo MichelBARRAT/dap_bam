@@ -224,19 +224,19 @@ public class MailController {
     @Autowired
     private GmailService gmService;
 
-    /**
-     * Display message unread in client server.
-     *
-     * @return number of messages unread.
-     * @throws GeneralSecurityException cannot connect to google sever.
-     * @throws IOException              if the credentials.json file cannot be found.
-     * @param userKey which user wanted access.
-     */
-    @RequestMapping("/email/nbunread")
-    private Integer displayMessageUnread(@RequestParam("userKey") final String userKey)
-            throws IOException, GeneralSecurityException {
-        return gmService.retrieveMessageUnread(userKey);
-    }
+//    /**
+//     * Display message unread in client server.
+//     *
+//     * @return number of messages unread.
+//     * @throws GeneralSecurityException cannot connect to google sever.
+//     * @throws IOException              if the credentials.json file cannot be found.
+//     * @param userKey which user wanted access.
+//     */
+//    @RequestMapping("/email/nbunread")
+//    private Integer displayMessageUnread(@RequestParam("userKey") final String userKey)
+//            throws IOException, GeneralSecurityException {
+//        return gmService.retrieveMessageUnread(userKey);
+//    }
 
     /**
      * TODO JavaDoc.
