@@ -201,107 +201,54 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package fr.hoc.dap.server.service;
+package fr.hoc.dap.server.data.repository;
 
-import java.io.IOException;
-import java.security.GeneralSecurityException;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.stereotype.Service;
-
-import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
-import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.services.gmail.Gmail;
-import com.google.api.services.gmail.model.ListMessagesResponse;
-import com.google.api.services.gmail.model.Message;
+import com.google.api.client.auth.oauth2.StoredCredential;
 
 /**
- * Service for display number of messages unread.
+ * TODO JavaDoc.
  *
  * @author Michel BARRAT && Thomas TAVERNIER
  */
-@Service
-public final class GmailService extends GoogleService {
-    /** Logs. */
-    private static final Logger LOG = LogManager.getLogger("GmailService");
+public class DapStoredCredential {
+    /** TODO JavaDoc. */
+    private StoredCredential storedCredential;
+    /** TODO JavaDoc. */
+    private String loginName;
 
     /**
-     * Build gmail service.
+     * TODO JavaDoc.
      *
-     * @param userKey which user wanted access.
-     * @return gmail service instance.
-     * @throws GeneralSecurityException cannot connect to google sever.
-     * @throws IOException              if the credentials.json file cannot be found.
+     * @param newGoogleStoreCredential JavaDoc.
      */
-    private Gmail getService(final String userKey) throws GeneralSecurityException, IOException {
-        NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
-        Gmail service = new Gmail.Builder(httpTransport, getJsonFactory(), getCredentials(userKey))
-                .setApplicationName(getMyConf().getApplicationName()).build();
-        return service;
-    }
-
-    /**
-     * List of messages matching with query.
-     *
-     * @param userKey which user wanted access.
-     * @return how many messages match with the query.
-     * @throws IOException              if the credentials.json file cannot be found.
-     * @throws GeneralSecurityException cannot connect to google sever.
-     */
-    private int listMessagesMatchingQuery(final String userKey) throws IOException, GeneralSecurityException {
-        String query = "is:unread";
-        String userId = "me";
-
-        LOG.info("Searching for message with filter \"" + query + "\" for \"" + userKey + "\"");
-
-        ListMessagesResponse response = getService(userKey).users().messages().list(userId).setQ(query).execute();
-        List<Message> messages = new ArrayList<Message>();
-        while (response.getMessages() != null) {
-            messages.addAll(response.getMessages());
-            if (response.getNextPageToken() != null) {
-                String pageToken = response.getNextPageToken();
-                response = getService(userKey).users().messages().list(userId).setQ(query).setPageToken(pageToken)
-                        .execute();
-            } else {
-                break;
-            }
-        }
-        return messages.size();
-    }
-
-    /**
-     * Retrieve number of unread messages.
-     *
-     * @param userKey which user wanted access.
-     * @return list of messages match with the query.
-     * @throws IOException              IOException if the credentials.json file cannot be found.
-     * @throws GeneralSecurityException cannot connect to google sever.
-     */
-    public int retrieveMessageUnread(final String userKey) throws IOException, GeneralSecurityException {
-        listMessagesMatchingQuery(userKey);
-        return listMessagesMatchingQuery(userKey);
+    public void setGoogleStoreCredential(final StoredCredential newGoogleStoreCredential) {
+        this.storedCredential = newGoogleStoreCredential;
     }
 
     /**
      * TODO JavaDoc.
      *
-     * @param loginName TODO JavaDoc.
-     * @return TODO JavaDoc.
-     * @throws IOException              TODO JavaDoc.
-     * @throws GeneralSecurityException TODO JavaDoc.
+     * @param newLoginName TODO JavaDoc.
      */
-    public int retrieveAllMessageUnread(final String loginName) throws IOException, GeneralSecurityException {
-        Integer nbEmailUnread = null;
-        List<String> list = retrieveListOfUserKey(loginName);
-        if (!list.isEmpty()) {
-            nbEmailUnread = 0;
-            for (String userKey : list) {
-                nbEmailUnread += retrieveMessageUnread(userKey);
-            }
-        }
-        return nbEmailUnread;
+    public void setLoginName(final String newLoginName) {
+        this.loginName = newLoginName;
+    }
+
+    /**
+     * TODO JavaDoc.
+     *
+     * @return TODO JavaDoc.
+     */
+    public String getLoginName() {
+        return this.loginName;
+    }
+
+    /**
+     * TODO JavaDoc.
+     *
+     * @return TODO JavaDoc.
+     */
+    public StoredCredential getStoredCredential() {
+        return this.storedCredential;
     }
 }

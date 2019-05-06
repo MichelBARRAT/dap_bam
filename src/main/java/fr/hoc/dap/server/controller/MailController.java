@@ -235,6 +235,20 @@ public class MailController {
     @RequestMapping("/email/nbunread")
     private Integer displayMessageUnread(@RequestParam("userKey") final String userKey)
             throws IOException, GeneralSecurityException {
-        return gmService.displayMessageUnread(userKey);
+        return gmService.retrieveMessageUnread(userKey);
+    }
+
+    /**
+     * TODO JavaDoc.
+     *
+     * @param loginName TODO JavaDoc.
+     * @return TODO JavaDoc.
+     * @throws IOException              TODO JavaDoc.
+     * @throws GeneralSecurityException TODO JavaDoc.
+     */
+    @RequestMapping("/email/allnbunread")
+    private Integer displayAllMessageUnread(@RequestParam("loginName") final String loginName)
+            throws IOException, GeneralSecurityException {
+        return gmService.retrieveAllMessageUnread(loginName);
     }
 }

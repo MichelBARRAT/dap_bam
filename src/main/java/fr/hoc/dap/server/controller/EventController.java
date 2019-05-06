@@ -239,4 +239,19 @@ public class EventController {
             @RequestParam("userKey") final String userKey) throws IOException, GeneralSecurityException {
         return gcService.displayNextEvent(nb, userKey);
     }
+
+    /**
+     * TODO JavaDoc.
+     *
+     * @param nb        TODO JavaDoc.
+     * @param loginName TODO JavaDoc.
+     * @return TODO JavaDoc.
+     * @throws IOException              TODO JavaDoc.
+     * @throws GeneralSecurityException TODO JavaDoc.
+     */
+    @RequestMapping("/allevent/next")
+    private List<String> displayAllNextEvent(@RequestParam(value = "nb", defaultValue = "1") final Integer nb,
+            @RequestParam("loginName") final String loginName) throws IOException, GeneralSecurityException {
+        return gcService.retrieveAllNextEvent(nb, loginName);
+    }
 }
