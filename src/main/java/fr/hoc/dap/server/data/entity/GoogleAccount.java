@@ -201,36 +201,58 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package fr.hoc.dap.server.controller;
+package fr.hoc.dap.server.data.entity;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 /**
- * Manage informative pages.
+ * Contains all attributes for a google account.
  *
  * @author Michel BARRAT && Thomas TAVERNIER
  */
-@RestController
-public class InformativeController {
+@Entity
+public class GoogleAccount {
+    /** google account Id. */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    /** DaP UserKey (to store in Google Credentials). */
+    @Column(nullable = false, unique = true)
+    private String userKey;
+    /** google account owner. */
+    @ManyToOne(fetch = FetchType.LAZY)
+    private DapUser owner;
 
     /**
-     * ping test.
+     * Set google account owner.
      *
-     * @return true if succes.
+     * @param dapUser owner
      */
-    @RequestMapping("/ping")
-    private String ping() {
-        return "true";
+    public void setOwner(final DapUser dapUser) {
+        this.owner = dapUser;
     }
 
     /**
-     * Account added successfully.
+     * Get google userKey.
      *
-     * @return added successfully message.
+     * @return userKey google userKey
      */
-    @RequestMapping("/account/added")
-    private String accountAdded() {
-        return "Vous avez bien reussi à ajouter votre compte !";
+    public String getUserKey() {
+        return userKey;
+    }
+
+    /**
+     * set google userKey.
+     *
+     * @param newUserKey google userKey
+     */
+    public void setUserKey(final String newUserKey) {
+        this.userKey = newUserKey;
     }
 }
