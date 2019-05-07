@@ -206,11 +206,14 @@ package fr.hoc.dap.server.service;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.google.api.client.auth.oauth2.StoredCredential;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.util.store.DataStore;
+
+import fr.hoc.dap.server.data.repository.GoogleAccountRepository;
 
 /**
  * Service to display admin service.
@@ -219,6 +222,9 @@ import com.google.api.client.util.store.DataStore;
  */
 @Service
 public class AdminService extends GoogleService {
+    /** TODO JavaDoc. */
+    @Autowired
+    private GoogleAccountRepository repo;
 
     /**
      * Get data store.
@@ -259,5 +265,15 @@ public class AdminService extends GoogleService {
         StoredCredential userCredentials = flow.getCredentialDataStore().get(userKey);
         flow.getCredentialDataStore().set(newUserKey, userCredentials);
         flow.getCredentialDataStore().delete(userKey);
+    }
+
+    /**
+     * TODO JavaDoc.
+     *
+     * @param userKey TODO JavaDoc.
+     * @return TODO JavaDoc.
+     */
+    public String getLoginName(final String userKey) {
+        return repo.findByUserKey(userKey);
     }
 }

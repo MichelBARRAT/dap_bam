@@ -225,6 +225,8 @@ import com.google.api.services.gmail.GmailScopes;
 import com.google.api.services.people.v1.PeopleServiceScopes;
 
 import fr.hoc.dap.server.Configuration;
+import fr.hoc.dap.server.data.repository.DapUserRepository;
+import fr.hoc.dap.server.data.repository.GoogleAccountRepository;
 
 /**
  * Service to stock Credentials.
@@ -232,6 +234,12 @@ import fr.hoc.dap.server.Configuration;
  * @author Michel BARRAT && Thomas TAVERNIER
  */
 public class GoogleService {
+    /** DapUserRepository Instance. */
+    @Autowired
+    private DapUserRepository dapUserRepo;
+    /** GoogleAccountRepository Instance. */
+    @Autowired
+    private GoogleAccountRepository googleAccountRepo;
     /** Configuration instance. */
     @Autowired
     private Configuration myConf;
@@ -326,5 +334,15 @@ public class GoogleService {
      */
     protected static JsonFactory getJsonFactory() {
         return JSON_FACTORY;
+    }
+
+    /**
+     * TODO JavaDoc.
+     *
+     * @param loginName JavaDoc.
+     * @return JavaDoc.
+     */
+    public List<String> retrieveListOfUserKey(final String loginName) {
+        return googleAccountRepo.findListOfUserKey(loginName);
     }
 }

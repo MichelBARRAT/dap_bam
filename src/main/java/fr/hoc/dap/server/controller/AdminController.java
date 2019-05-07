@@ -217,6 +217,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.google.api.client.auth.oauth2.StoredCredential;
 import com.google.api.client.util.store.DataStore;
 
+import fr.hoc.dap.server.data.repository.DapStoredCredential;
 import fr.hoc.dap.server.service.AdminService;
 
 /**
@@ -241,10 +242,14 @@ public class AdminController {
     @RequestMapping("/admin")
     private String adminDisplay(final ModelMap model) throws GeneralSecurityException, IOException {
         DataStore<StoredCredential> credentialMap;
-        Map<String, StoredCredential> dataMap = new HashMap<String, StoredCredential>();
+        DapStoredCredential storedCredential;
+        Map<String, DapStoredCredential> dataMap = new HashMap<String, DapStoredCredential>();
         credentialMap = admService.getCredentialMap();
         for (String user : credentialMap.keySet()) {
-            dataMap.put(user, credentialMap.get(user));
+            storedCredential = new DapStoredCredential();
+            storedCredential.setLoginName(admService.getLoginName(user));
+            storedCredential.setGoogleStoreCredential(credentialMap.get(user));
+            dataMap.put(user, storedCredential);
         }
         model.addAttribute("map", dataMap);
         return "admin";

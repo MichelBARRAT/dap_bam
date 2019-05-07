@@ -201,57 +201,54 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package fr.hoc.dap.server.controller;
+package fr.hoc.dap.server.data.repository;
 
-import java.io.IOException;
-import java.security.GeneralSecurityException;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import fr.hoc.dap.server.service.CalendarService;
+import com.google.api.client.auth.oauth2.StoredCredential;
 
 /**
- * Manage calendar service.
+ * TODO JavaDoc.
  *
  * @author Michel BARRAT && Thomas TAVERNIER
  */
-@RestController
-public class EventController {
-    /** CalendarService instance. */
-    @Autowired
-    private CalendarService gcService;
-
-//    /**
-//     * Display next event in server client.
-//     *
-//     * @param userKey which user wanted access.
-//     * @param nb      number of event wanted by user.
-//     * @return list of next event(s).
-//     * @throws IOException              if the credentials.json file cannot be found.
-//     * @throws GeneralSecurityException cannot connect to google sever.
-//     */
-//    @RequestMapping("/event/next")
-//    private HashMap<String, Object> displayNextEvent(@RequestParam(value = "nb", defaultValue = "1") final Integer nb,
-//            @RequestParam("userKey") final String userKey) throws IOException, GeneralSecurityException {
-//        return gcService.retrieveNextEventMap(nb, userKey);
-//    }
+public class DapStoredCredential {
+    /** TODO JavaDoc. */
+    private StoredCredential storedCredential;
+    /** TODO JavaDoc. */
+    private String loginName;
 
     /**
      * TODO JavaDoc.
      *
-     * @param nb        TODO JavaDoc.
-     * @param loginName TODO JavaDoc.
-     * @return TODO JavaDoc.
-     * @throws IOException              TODO JavaDoc.
-     * @throws GeneralSecurityException TODO JavaDoc.
+     * @param newGoogleStoreCredential JavaDoc.
      */
-    @RequestMapping("/allevent/next")
-    private List<String> displayAllNextEvent(@RequestParam(value = "nb", defaultValue = "1") final Integer nb,
-            @RequestParam("loginName") final String loginName) throws IOException, GeneralSecurityException {
-        return gcService.retrieveAllNextEvent(nb, loginName);
+    public void setGoogleStoreCredential(final StoredCredential newGoogleStoreCredential) {
+        this.storedCredential = newGoogleStoreCredential;
+    }
+
+    /**
+     * TODO JavaDoc.
+     *
+     * @param newLoginName TODO JavaDoc.
+     */
+    public void setLoginName(final String newLoginName) {
+        this.loginName = newLoginName;
+    }
+
+    /**
+     * TODO JavaDoc.
+     *
+     * @return TODO JavaDoc.
+     */
+    public String getLoginName() {
+        return this.loginName;
+    }
+
+    /**
+     * TODO JavaDoc.
+     *
+     * @return TODO JavaDoc.
+     */
+    public StoredCredential getStoredCredential() {
+        return this.storedCredential;
     }
 }

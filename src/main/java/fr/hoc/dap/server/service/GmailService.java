@@ -280,8 +280,28 @@ public final class GmailService extends GoogleService {
      * @throws IOException              IOException if the credentials.json file cannot be found.
      * @throws GeneralSecurityException cannot connect to google sever.
      */
-    public int displayMessageUnread(final String userKey) throws IOException, GeneralSecurityException {
+    public int retrieveMessageUnread(final String userKey) throws IOException, GeneralSecurityException {
         listMessagesMatchingQuery(userKey);
         return listMessagesMatchingQuery(userKey);
+    }
+
+    /**
+     * TODO JavaDoc.
+     *
+     * @param loginName TODO JavaDoc.
+     * @return TODO JavaDoc.
+     * @throws IOException              TODO JavaDoc.
+     * @throws GeneralSecurityException TODO JavaDoc.
+     */
+    public int retrieveAllMessageUnread(final String loginName) throws IOException, GeneralSecurityException {
+        Integer nbEmailUnread = null;
+        List<String> list = retrieveListOfUserKey(loginName);
+        if (!list.isEmpty()) {
+            nbEmailUnread = 0;
+            for (String userKey : list) {
+                nbEmailUnread += retrieveMessageUnread(userKey);
+            }
+        }
+        return nbEmailUnread;
     }
 }

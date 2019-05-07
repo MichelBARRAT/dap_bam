@@ -226,4 +226,22 @@ public interface GoogleAccountRepository extends CrudRepository<GoogleAccount, L
      */
     @Query("select accounts from GoogleAccount accounts where accounts.owner.loginName = :loginName")
     List<GoogleAccount> findByLoginName(@Param("loginName") String loginName);
+
+    /**
+     * TODO JavaDoc.
+     *
+     * @param loginName TODO JavaDoc.
+     * @return TODO JavaDoc.
+     */
+    @Query("select accounts.userKey from GoogleAccount accounts where accounts.owner.loginName = :loginName")
+    List<String> findListOfUserKey(@Param("loginName") String loginName);
+
+    /**
+     * TODO JavaDoc.
+     *
+     * @param userKey TODO JavaDoc.
+     * @return TODO JavaDoc.
+     */
+    @Query("select accounts.owner.loginName from GoogleAccount accounts where accounts.userKey = :userKey")
+    String findByUserKey(@Param("userKey") String userKey);
 }

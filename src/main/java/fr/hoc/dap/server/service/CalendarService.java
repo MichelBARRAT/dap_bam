@@ -205,9 +205,17 @@ package fr.hoc.dap.server.service;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
@@ -224,6 +232,18 @@ import com.google.api.services.calendar.model.Events;
  */
 @Service
 public final class CalendarService extends GoogleService {
+    /** Logs. */
+    private static final Logger LOG = LogManager.getLogger("calendar service");
+    /** Default length if date is with hours. */
+    private static final Integer LENGTH_IF_HOURS = 12;
+    /** Date format wihtout hours. */
+    private static final DateFormat DATE_FORMAT_WITHOUT_HOURS = new SimpleDateFormat("yyyy-MM-dd");
+    /** Simple date format wihtout hours. */
+    private static final SimpleDateFormat FORMATATTER_WITHOUT_HOURS = new SimpleDateFormat("EEEE dd MMMM yyyy");
+    /** Date format wiht hours. */
+    private static final DateFormat DATE_FORMAT_WITH_HOURS = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSSX");
+    /** Simple date format wiht hours. */
+    private static final SimpleDateFormat FORMATATTER_WITH_HOURS = new SimpleDateFormat("EEEE dd MMMM yyyy à hh:mm");
 
     /**
      * Build calendar service.
@@ -249,24 +269,95 @@ public final class CalendarService extends GoogleService {
      * @param userKey which user wanted access.
      * @param nb      number of event wanted by user.
      */
-    public List<String> displayNextEvent(final Integer nb, final String userKey)
-            throws IOException, GeneralSecurityException {
-        List<String> nextEvents = new ArrayList<String>();
+    public HashMap<String, Object> retrieveNextEventMap(final Integer nb, final String userKey) {
+        HashMap<String, Object> response = null;
+        Events events = null;
+        List<Date> dateList = new ArrayList<Date>();
+        List<String> textList = new ArrayList<String>();
         DateTime now = new DateTime(System.currentTimeMillis());
-        Events events = getService(userKey).events().list("primary").setMaxResults(nb).setTimeMin(now)
-                .setOrderBy("startTime").setSingleEvents(true).execute();
-        List<Event> items = events.getItems();
-        if (items.isEmpty()) {
-            nextEvents.add("No events found");
-        } else {
-            for (Event event : items) {
+        try {
+            events = getService(userKey).events().list("primary").setMaxResults(nb).setTimeMin(now)
+                    .setOrderBy("startTime").setSingleEvents(true).execute();
+        } catch (IOException | GeneralSecurityException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
+        List<Event> eventsList = events.getItems();
+        if (!eventsList.isEmpty()) {
+            response = new HashMap<String, Object>();
+            response.put("dateList", dateList);
+            response.put("textList", textList);
+            for (Event event : eventsList) {
                 DateTime start = event.getStart().getDateTime();
-                if (start == null) {
-                    start = event.getStart().getDate();
+                Date date = null;
+                String text;
+                text = event.getSummary();
+                if (text == null) {
+                    text = "(Sans titre)";
                 }
-                nextEvents.add(event.getSummary() + " " + start);
+                try {
+                    if (start == null) {
+                        start = event.getStart().getDate();
+                        date = DATE_FORMAT_WITHOUT_HOURS.parse(start.toString());
+                    } else {
+                        date = DATE_FORMAT_WITH_HOURS.parse(start.toString());
+                    }
+                } catch (ParseException e) {
+                    // TODO handle exception
+                }
+                textList.add(text);
+                dateList.add(date);
             }
         }
-        return nextEvents;
+        return response;
+    }
+
+    /**
+     * TODO JavaDoc.
+     *
+     * @param nb        TODO JavaDoc.
+     * @param loginName TODO JavaDoc.
+     * @return TODO JavaDoc.
+     */
+    public List<String> retrieveAllNextEvent(final Integer nb, final String loginName) {
+        List<String> response = null;
+        HashMap<String, Object> eventsMap = null;
+        LinkedList<Date> dateTotalList = new LinkedList<Date>();
+        LinkedList<String> textTotalList = new LinkedList<String>();
+        List<Date> dateList = new ArrayList<Date>();
+        List<String> textList = new ArrayList<String>();
+        List<String> userKeyList = retrieveListOfUserKey(loginName);
+        if (userKeyList == null) {
+            return response;
+        }
+        response = new ArrayList<String>();
+        for (String userKey : userKeyList) {
+            eventsMap = retrieveNextEventMap(nb, userKey);
+            dateList = (List<Date>) eventsMap.get("dateList");
+            textList = (List<String>) eventsMap.get("textList");
+            for (Integer listIndex = 0; listIndex < dateList.size(); listIndex++) {
+                for (Integer totalListIndex = 0; totalListIndex <= dateTotalList.size(); totalListIndex++) {
+                    if (totalListIndex == dateTotalList.size()
+                            || dateTotalList.get(totalListIndex).compareTo(dateList.get(listIndex)) > 0) {
+                        dateTotalList.add(totalListIndex, dateList.get(listIndex));
+                        textTotalList.add(totalListIndex, textList.get(listIndex));
+                        break;
+                    }
+                }
+            }
+        }
+        for (Integer totalListIndex = 0; totalListIndex < dateTotalList.size(); totalListIndex++) {
+            if (totalListIndex == nb) {
+                break;
+            }
+            Date date = dateTotalList.get(totalListIndex);
+            String text = textTotalList.get(totalListIndex);
+            if (date.toString().length() < LENGTH_IF_HOURS) {
+                response.add(text + " le " + FORMATATTER_WITHOUT_HOURS.format(date));
+            } else {
+                response.add(text + " le " + FORMATATTER_WITH_HOURS.format(date));
+            }
+        }
+        return response;
     }
 }
