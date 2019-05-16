@@ -23,38 +23,36 @@
 		</div>
 	</nav>
 	<div class="container-fluid">
-	<div class="row">
-		<div class="table">
-			<table class="table-bordered table-striped offset-lg-1 col-lg-10">
-				<thead>
-					<tr>
-						<td class="align-middle text-center">Utilisateurs</td>
-						<td class="align-middle text-center">Acces Token</td>
-						<td class="align-middle text-center">Refresh Token</td>
-						<td class="align-middle text-center">Expir/jour</td>
-						<td class="align-middle text-center">Delete</td>
-					</tr>
-				</thead>
+		<div class="row">
+			<div class="table">
+				<table class="table-bordered table-striped offset-lg-1 col-lg-10">
+					<thead>
+						<tr>
+							<td class="align-middle text-center">Utilisateurs</td>
+							<td class="align-middle text-center">DapUser</td>
+							<td class="align-middle text-center">Acces Token</td>
+							<td class="align-middle text-center">Refresh Token</td>
+							<td class="align-middle text-center">Expir/jour</td>
+							<td class="align-middle text-center">Delete</td>
+						</tr>
+					</thead>
 
-				<tbody>
-					<tr th:each="userData : ${map}">
-						<td class="align-middle text-center" th:text="${userData.key}"></td>
-						<td class="align-middle text-center"
-							th:text="${userData.value.accessToken}"></td>
-						<td class="align-middle text-center"
-							th:text="${userData.value.refreshToken}"></td>
-							<!-- //TODO bam by Djer |Thymeleaf| Provoque une erreur si ${userData.value.expirationTimeMilliseconds est NULL. -->
-						<!-- <td class="align-middle text-center"
-							th:text="${userData.value.expirationTimeMilliseconds / 86400000}"></td> -->
-							
-							<!-- Voici une proposition de correction -->
+					<tbody>
+						<tr th:each="userData : ${map}">
+							<td class="align-middle text-center" th:text="${userData.key}"></td>
+							<td class="align-middle text-center" th:text="${userData.value.loginName}"></td>
 							<td class="align-middle text-center"
-							th:text="${userData.value.expirationTimeMilliseconds != null} ? ${userData.value.expirationTimeMilliseconds/86400000} : 'Inconnu'"></td>
-						<td class="align-middle text-center"><a th:href="@{/delete(userKey=${userData.key})}">X</a></td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
+								th:text="${userData.value.storedCredential.accessToken}"></td>
+							<td class="align-middle text-center"
+								th:text="${userData.value.storedCredential.refreshToken}"></td>
+							<td class="align-middle text-center"
+								th:text="${userData.value.storedCredential.expirationTimeMilliseconds != null} ? ${userData.value.storedCredential.expirationTimeMilliseconds/86400000} : 'Inconnu'"></td>
+							<td class="align-middle text-center"><a
+								th:href="@{/delete(userKey=${userData.key})}">X</a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 		</div>
 	</div>
 </body>

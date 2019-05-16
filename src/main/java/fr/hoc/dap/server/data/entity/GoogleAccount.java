@@ -201,9 +201,58 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+package fr.hoc.dap.server.data.entity;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
 /**
- * Package Service Application.
+ * Contains all attributes for a google account.
  *
  * @author Michel BARRAT && Thomas TAVERNIER
  */
-package fr.hoc.dap.server.service;
+@Entity
+public class GoogleAccount {
+    /** google account Id. */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    /** DaP UserKey (to store in Google Credentials). */
+    @Column(nullable = false, unique = true)
+    private String userKey;
+    /** google account owner. */
+    @ManyToOne(fetch = FetchType.LAZY)
+    private DapUser owner;
+
+    /**
+     * Set google account owner.
+     *
+     * @param dapUser owner
+     */
+    public void setOwner(final DapUser dapUser) {
+        this.owner = dapUser;
+    }
+
+    /**
+     * Get google userKey.
+     *
+     * @return userKey google userKey
+     */
+    public String getUserKey() {
+        return userKey;
+    }
+
+    /**
+     * set google userKey.
+     *
+     * @param newUserKey google userKey
+     */
+    public void setUserKey(final String newUserKey) {
+        this.userKey = newUserKey;
+    }
+}

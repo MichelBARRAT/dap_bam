@@ -201,9 +201,54 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+package fr.hoc.dap.server.data.repository;
+
+import com.google.api.client.auth.oauth2.StoredCredential;
+
 /**
- * Package Service Application.
+ * TODO JavaDoc.
  *
  * @author Michel BARRAT && Thomas TAVERNIER
  */
-package fr.hoc.dap.server.service;
+public class DapStoredCredential {
+    /** TODO JavaDoc. */
+    private StoredCredential storedCredential;
+    /** TODO JavaDoc. */
+    private String loginName;
+
+    /**
+     * TODO JavaDoc.
+     *
+     * @param newGoogleStoreCredential JavaDoc.
+     */
+    public void setGoogleStoreCredential(final StoredCredential newGoogleStoreCredential) {
+        this.storedCredential = newGoogleStoreCredential;
+    }
+
+    /**
+     * TODO JavaDoc.
+     *
+     * @param newLoginName TODO JavaDoc.
+     */
+    public void setLoginName(final String newLoginName) {
+        this.loginName = newLoginName;
+    }
+
+    /**
+     * TODO JavaDoc.
+     *
+     * @return TODO JavaDoc.
+     */
+    public String getLoginName() {
+        return this.loginName;
+    }
+
+    /**
+     * TODO JavaDoc.
+     *
+     * @return TODO JavaDoc.
+     */
+    public StoredCredential getStoredCredential() {
+        return this.storedCredential;
+    }
+}

@@ -201,9 +201,27 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+package fr.hoc.dap.server.data.repository;
+
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
+
+import fr.hoc.dap.server.data.entity.DapUser;
+
 /**
- * Package Service Application.
+ * Manage access for DaP user in database.
  *
  * @author Michel BARRAT && Thomas TAVERNIER
  */
-package fr.hoc.dap.server.service;
+public interface DapUserRepository extends CrudRepository<DapUser, Long> {
+
+    /**
+     * Get DapUser of loginName.
+     *
+     * @param loginName DaP login Name
+     * @return DapUser
+     */
+    @Query("select user from DapUser user where user.loginName = :loginName")
+    DapUser findByLoginName(@Param("loginName") String loginName);
+}

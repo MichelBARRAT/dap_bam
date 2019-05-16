@@ -201,9 +201,47 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+package fr.hoc.dap.server.data.repository;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
+
+import fr.hoc.dap.server.data.entity.GoogleAccount;
+
 /**
- * Package Service Application.
+ * Manage access for google account in database.
  *
  * @author Michel BARRAT && Thomas TAVERNIER
  */
-package fr.hoc.dap.server.service;
+public interface GoogleAccountRepository extends CrudRepository<GoogleAccount, Long> {
+
+    /**
+     * Get list of google accounts of loginName.
+     *
+     * @param loginName DaP login Name
+     * @return list of google accounts
+     */
+    @Query("select accounts from GoogleAccount accounts where accounts.owner.loginName = :loginName")
+    List<GoogleAccount> findByLoginName(@Param("loginName") String loginName);
+
+    /**
+     * TODO JavaDoc.
+     *
+     * @param loginName TODO JavaDoc.
+     * @return TODO JavaDoc.
+     */
+    @Query("select accounts.userKey from GoogleAccount accounts where accounts.owner.loginName = :loginName")
+    List<String> findListOfUserKey(@Param("loginName") String loginName);
+
+    /**
+     * TODO JavaDoc.
+     *
+     * @param userKey TODO JavaDoc.
+     * @return TODO JavaDoc.
+     */
+    @Query("select accounts.owner.loginName from GoogleAccount accounts where accounts.userKey = :userKey")
+    String findByUserKey(@Param("userKey") String userKey);
+}

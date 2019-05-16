@@ -202,8 +202,8 @@
  *  limitations under the License.
  */
 /**
- * Package Service Application.
+ * Package repository.
  *
  * @author Michel BARRAT && Thomas TAVERNIER
  */
-package fr.hoc.dap.server.service;
+package fr.hoc.dap.server.data.repository;

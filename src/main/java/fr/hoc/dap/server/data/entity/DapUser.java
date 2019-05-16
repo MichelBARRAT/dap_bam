@@ -201,9 +201,80 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+package fr.hoc.dap.server.data.entity;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
 /**
- * Package Service Application.
+ * Contains all attributes for a DaP user.
  *
  * @author Michel BARRAT && Thomas TAVERNIER
  */
-package fr.hoc.dap.server.service;
+@Entity
+public class DapUser {
+    /** DaP User Id. */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    /** DaP User login name. */
+    @Column(nullable = false, unique = true)
+    private String loginName;
+
+    /**
+     * Constructor DapUser.
+     */
+    public DapUser() {
+        googleAccounts = new ArrayList<GoogleAccount>();
+    }
+
+    /** List of google accounts. */
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.LAZY)
+    private List<GoogleAccount> googleAccounts;
+
+    /**
+     * Add gooole account.
+     *
+     * @param account account to add
+     */
+    public void addGoogleAccount(final GoogleAccount account) {
+        account.setOwner(this);
+        this.getAccounts().add(account);
+    }
+
+    /**
+     * Get list of accounts.
+     *
+     * @return googleAccounts list
+     */
+    private List<GoogleAccount> getAccounts() {
+        return googleAccounts;
+    }
+
+    /**
+     * Get login name.
+     *
+     * @return DaP login name
+     */
+    public String getLoginName() {
+        return loginName;
+    }
+
+    /**
+     * Set login name.
+     *
+     * @param newLoginName DaP login name
+     */
+    public void setLoginName(final String newLoginName) {
+        this.loginName = newLoginName;
+    }
+}

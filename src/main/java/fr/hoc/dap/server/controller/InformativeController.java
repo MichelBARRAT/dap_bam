@@ -201,9 +201,36 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+package fr.hoc.dap.server.controller;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 /**
- * Package Service Application.
+ * Manage informative pages.
  *
  * @author Michel BARRAT && Thomas TAVERNIER
  */
-package fr.hoc.dap.server.service;
+@RestController
+public class InformativeController {
+
+    /**
+     * ping test.
+     *
+     * @return true if succes.
+     */
+    @RequestMapping("/ping")
+    private String ping() {
+        return "true";
+    }
+
+    /**
+     * Account added successfully.
+     *
+     * @return added successfully message.
+     */
+    @RequestMapping("/account/added")
+    private String accountAdded() {
+        return "Vous avez bien reussi à ajouter votre compte !";
+    }
+}

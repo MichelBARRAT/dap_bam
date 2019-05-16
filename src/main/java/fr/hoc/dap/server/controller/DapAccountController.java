@@ -201,9 +201,84 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+package fr.hoc.dap.server.controller;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import fr.hoc.dap.server.data.entity.DapUser;
+import fr.hoc.dap.server.data.entity.GoogleAccount;
+import fr.hoc.dap.server.data.repository.DapUserRepository;
+import fr.hoc.dap.server.data.repository.GoogleAccountRepository;
+
 /**
- * Package Service Application.
+ * Manage /dap/ mapping.
  *
  * @author Michel BARRAT && Thomas TAVERNIER
  */
-package fr.hoc.dap.server.service;
+@RestController
+public class DapAccountController {
+    /** DapUserRepository Instance. */
+    @Autowired
+    private DapUserRepository dapUserRepo;
+    /** GoogleAccountRepository Instance. */
+    @Autowired
+    private GoogleAccountRepository googleAccountRepo;
+
+    /**
+     * @param loginName which user wanted access.
+     */
+    @RequestMapping("/dap/createUser")
+    private void createUser(@RequestParam("loginName") final String loginName) {
+        DapUser user = new DapUser();
+        user.setLoginName(loginName);
+        dapUserRepo.save(user);
+    }
+
+    /**
+     * @param loginName which user wanted access.
+     * @return list of google accounts
+     */
+    @RequestMapping("/dap/getListOfGoogleAccounts")
+    private List<String> getListOfGoogleAccounts(@RequestParam("loginName") final String loginName) {
+        List<GoogleAccount> accounts = googleAccountRepo.findByLoginName(loginName);
+        List<String> response = new ArrayList<String>();
+        for (GoogleAccount account : accounts) {
+            response.add(account.getUserKey());
+        }
+        return response;
+    }
+
+    /**
+     * @param loginName to check.
+     * @return true if the account exist
+     */
+    @RequestMapping("/dap/account/exist")
+    private boolean exist(@RequestParam("loginName") final String loginName) {
+        boolean response = true;
+        if (dapUserRepo.findByLoginName(loginName) == null) {
+            response = false;
+        }
+        return response;
+    }
+
+    /**
+     * Link a google account and a dap account.
+     *
+     * @param userKey   to link
+     * @param loginName to link
+     */
+    @RequestMapping("/dap/add/{userKey}")
+    private void add(@PathVariable final String userKey, @RequestParam("loginName") final String loginName) {
+        GoogleAccount account = new GoogleAccount();
+        account.setUserKey(userKey);
+        dapUserRepo.findByLoginName(loginName).addGoogleAccount(account);
+        googleAccountRepo.save(account);
+    }
+}
