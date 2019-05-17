@@ -226,6 +226,7 @@ import com.google.api.services.gmail.model.Message;
 @Service
 public final class GmailService extends GoogleService {
     /** Logs. */
+    //TODO bam by Djer |Log4J| Utilise le nom pleimnement qualifié de la classe, ou "rien" comme catégory (et laisser Log4J décider)
     private static final Logger LOG = LogManager.getLogger("GmailService");
 
     /**
@@ -251,6 +252,7 @@ public final class GmailService extends GoogleService {
      * @throws IOException              if the credentials.json file cannot be found.
      * @throws GeneralSecurityException cannot connect to google sever.
      */
+    //TODO bam by Djer |POO| "countMessagesMatchingQuery" serait plus juste
     private int listMessagesMatchingQuery(final String userKey) throws IOException, GeneralSecurityException {
         String query = "is:unread";
         String userId = "me";
@@ -281,6 +283,7 @@ public final class GmailService extends GoogleService {
      * @throws GeneralSecurityException cannot connect to google sever.
      */
     public int retrieveMessageUnread(final String userKey) throws IOException, GeneralSecurityException {
+        //TODO bam by Djer |POO| Inutile d'appeler cette méthode ici, puis de la RE rappeler au return.
         listMessagesMatchingQuery(userKey);
         return listMessagesMatchingQuery(userKey);
     }
@@ -295,6 +298,7 @@ public final class GmailService extends GoogleService {
      */
     public int retrieveAllMessageUnread(final String loginName) throws IOException, GeneralSecurityException {
         Integer nbEmailUnread = null;
+        //TODO bam by Djer |POO| "googleAccounts" ou "providerAccounts" (pour anticiper sur la version avec Microsoft) serait mieux.
         List<String> list = retrieveListOfUserKey(loginName);
         if (!list.isEmpty()) {
             nbEmailUnread = 0;

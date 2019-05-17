@@ -232,12 +232,12 @@ import fr.hoc.dap.server.service.GoogleService;
  * Manage google account.
  *
  * @author Michel BARRAT && Thomas TAVERNIER
- *
  */
 @Controller
 public class GoogleAccountController extends GoogleService {
 
     /** logger. */
+    //TODO bam by Djer |Log4J| Utilise le nom pleimnement qualifié de la classe, ou "rien" comme catégory (et laisser Log4J décider)
     private static final Logger LOG = LogManager.getLogger("GoogleAccount");
     /** The first caracter to display for senssible datas (like Tokens). */
     private static final int SENSIBLE_DATA_FIRST_CHAR = 1;
@@ -319,6 +319,7 @@ public class GoogleAccountController extends GoogleService {
         final String decodedCode = extracCode(request);
         final String redirectUri = buildRedirectUri(request, getMyConf().getoAuth2CallbackUrl());
         final String userId = getUserid(session);
+      //TODO bam by Djer |API Google| Extrait le "loginName" ("sauvegardé" par le addAccount()).
         try {
             final GoogleAuthorizationCodeFlow flow = super.getFlow();
             final TokenResponse response = flow.newTokenRequest(decodedCode).setRedirectUri(redirectUri).execute();
@@ -332,6 +333,7 @@ public class GoogleAccountController extends GoogleService {
                 if (null != credential && null != credential.getAccessToken()) {
                     LOG.debug("New user credential stored with userId : " + userId + "partial AccessToken : "
                             + credential.getAccessToken().substring(SENSIBLE_DATA_FIRST_CHAR, SENSIBLE_DATA_LAST_CHAR));
+                    //TODO bam by Djer |API Google| Sauvegarde en BDD le lien loginName -> userKey.
                 }
             }
         } catch (IOException e) {
@@ -367,6 +369,7 @@ public class GoogleAccountController extends GoogleService {
                 authorizationUrl.setRedirectUri(buildRedirectUri(request, getMyConf().getoAuth2CallbackUrl()));
                 // store userId in session for CallBack Access
                 session.setAttribute("userId", userKey);
+                //TODO bam by Djer |API Google| Sauvegarde le "loginName" ici en session pour l'utiliser dans le oAuth2Callback
                 response = "redirect:" + authorizationUrl.build();
             }
         } catch (IOException e) {

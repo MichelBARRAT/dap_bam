@@ -224,6 +224,7 @@ import fr.hoc.dap.server.data.repository.GoogleAccountRepository;
  */
 @RestController
 public class DapAccountController {
+    //TODO bam by Djer |SOA| Pas top d'acceder à des repository directement à partir d'un controller. Normalement o na Controller->Service-->Repository (ou DAO) -> Base De Données
     /** DapUserRepository Instance. */
     @Autowired
     private DapUserRepository dapUserRepo;
@@ -234,8 +235,10 @@ public class DapAccountController {
     /**
      * @param loginName which user wanted access.
      */
+    //TODO bam by Djer |Rest API| A priori l'application sera déployée sur un Hote du type "dap.fr", remettre dap n'est pas très parlant. Ici c'est un "compte Dap" que l'on manipule ("/account/xxxx" ?)
     @RequestMapping("/dap/createUser")
     private void createUser(@RequestParam("loginName") final String loginName) {
+        //TODO bam by Djer |Log4J| Une petite log ? 
         DapUser user = new DapUser();
         user.setLoginName(loginName);
         dapUserRepo.save(user);
@@ -245,8 +248,11 @@ public class DapAccountController {
      * @param loginName which user wanted access.
      * @return list of google accounts
      */
+    //TODO bam by Djer |Rest API| L'API serait plus claire avec une URI "/account/google" (le "GET" qui renvoie la liste est en général eassez "attendu" dans une API Rest)
+    //TODO bam by Djer |Rest API| Vous pourriez renvoyer une Liste de GoogleAccount, la Vue peu naviguer dans les données (et pourrait afficher le "owner" si envie/besoin)
     @RequestMapping("/dap/getListOfGoogleAccounts")
     private List<String> getListOfGoogleAccounts(@RequestParam("loginName") final String loginName) {
+        //TODO bam by Djer |Log4J| Une petite log ? 
         List<GoogleAccount> accounts = googleAccountRepo.findByLoginName(loginName);
         List<String> response = new ArrayList<String>();
         for (GoogleAccount account : accounts) {
@@ -276,9 +282,12 @@ public class DapAccountController {
      */
     @RequestMapping("/dap/add/{userKey}")
     private void add(@PathVariable final String userKey, @RequestParam("loginName") final String loginName) {
+        //TODO bam by Djer |Log4J| Une petite log ? 
         GoogleAccount account = new GoogleAccount();
         account.setUserKey(userKey);
         dapUserRepo.findByLoginName(loginName).addGoogleAccount(account);
+        //TODO bam by Djer |Hbernate| Attention, l'entite "maitre" est DapUser, c'est cette entité qui devrait être "save" ; Hibernate se charge de répércuter sur les entité filles (cascade)
         googleAccountRepo.save(account);
+        //TODO bam by Djer |API Google| Il **faut** demander à l'utilisateur de connecter sont comtpe Google. L'ajout de compte est déja existant dans GoogleAccountController.addAccount qui devrait évoluer (cf mes TO-DO dans cette classe)
     }
 }

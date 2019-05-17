@@ -221,12 +221,14 @@ public class GoogleAccount {
     /** google account Id. */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //TODO bam by Djer |IDE| En général on laisse un "get" sur l'ID. Au pire ajoute un "suppress Warning"
     private Long id;
     /** DaP UserKey (to store in Google Credentials). */
     @Column(nullable = false, unique = true)
     private String userKey;
     /** google account owner. */
     @ManyToOne(fetch = FetchType.LAZY)
+    //TODO bam by Djer |IDE| Un getter pourrait servir
     private DapUser owner;
 
     /**

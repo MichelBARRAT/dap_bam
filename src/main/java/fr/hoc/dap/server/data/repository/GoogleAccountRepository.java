@@ -224,6 +224,7 @@ public interface GoogleAccountRepository extends CrudRepository<GoogleAccount, L
      * @param loginName DaP login Name
      * @return list of google accounts
      */
+    //TODO bam by Djer |Spring| Il n'est pas nécéssaire de préciser ta Query ici, Spring peu la construire tout seul
     @Query("select accounts from GoogleAccount accounts where accounts.owner.loginName = :loginName")
     List<GoogleAccount> findByLoginName(@Param("loginName") String loginName);
 
@@ -233,6 +234,7 @@ public interface GoogleAccountRepository extends CrudRepository<GoogleAccount, L
      * @param loginName TODO JavaDoc.
      * @return TODO JavaDoc.
      */
+    //TODO bam by Djer |Spring| Evite le "find" on s'attend à ce que ce genre de méthode renvoie une/des entité. "retrieveListOfUserKey" serait mieux
     @Query("select accounts.userKey from GoogleAccount accounts where accounts.owner.loginName = :loginName")
     List<String> findListOfUserKey(@Param("loginName") String loginName);
 
@@ -242,6 +244,7 @@ public interface GoogleAccountRepository extends CrudRepository<GoogleAccount, L
      * @param userKey TODO JavaDoc.
      * @return TODO JavaDoc.
      */
+  //TODO bam by Djer |Spring| Evite le "find" on s'attend à ce que ce genre de méthode renvoie une/des entité. "retrieveByUserKey" serait mieux
     @Query("select accounts.owner.loginName from GoogleAccount accounts where accounts.userKey = :userKey")
     String findByUserKey(@Param("userKey") String userKey);
 }

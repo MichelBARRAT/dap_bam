@@ -222,6 +222,7 @@ public interface DapUserRepository extends CrudRepository<DapUser, Long> {
      * @param loginName DaP login Name
      * @return DapUser
      */
+    //TODO bam by Djer |Spring| Il n'est pas nécéssaire de préciser ta Query ici, Spring peu la construire tout seul : "findBy" = cherche une entité géré par se repo (DapUser), "byxxxx" = filtre sur xxxx, avec comme valeur le premie paramètre fourni à la méthode.
     @Query("select user from DapUser user where user.loginName = :loginName")
     DapUser findByLoginName(@Param("loginName") String loginName);
 }

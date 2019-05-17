@@ -233,6 +233,7 @@ import com.google.api.services.calendar.model.Events;
 @Service
 public final class CalendarService extends GoogleService {
     /** Logs. */
+    //TODO bam by Djer |Log4J| Utilise le nom pleimnement qualifié de la classe, ou "rien" comme catégory (et laisser Log4J décider)
     private static final Logger LOG = LogManager.getLogger("calendar service");
     /** Default length if date is with hours. */
     private static final Integer LENGTH_IF_HOURS = 12;
@@ -279,17 +280,21 @@ public final class CalendarService extends GoogleService {
             events = getService(userKey).events().list("primary").setMaxResults(nb).setTimeMin(now)
                     .setOrderBy("startTime").setSingleEvents(true).execute();
         } catch (IOException | GeneralSecurityException e1) {
+          //TODO bam by Djer |Log4J| Utilise une Log
             // TODO Auto-generated catch block
+          //TODO bam by Djer |POO| Attention "printStackTrace()" est déguelasse car affiche la pile dans la console. Utilise une LOG à la place.
             e1.printStackTrace();
         }
         List<Event> eventsList = events.getItems();
         if (!eventsList.isEmpty()) {
             response = new HashMap<String, Object>();
+          //TODO bam by Djer |POO| C'est en général une mauvaise idée de renvoyer "2 listes correlée". Renvoie soit une liste de "event" (mais cela oblige le client/vue à faire du "formatage"). Tu peux aussi créer une nouvelle classe "DapEvent" qui contiendra tous les attributs utiles (et correctement alimentés) puis renvoyer une Liste des ces "DapEvent".
             response.put("dateList", dateList);
             response.put("textList", textList);
             for (Event event : eventsList) {
                 DateTime start = event.getStart().getDateTime();
                 Date date = null;
+              //TODO bam by Djer |POO| "eventTitle" serait mieux ?
                 String text;
                 text = event.getSummary();
                 if (text == null) {
@@ -304,6 +309,7 @@ public final class CalendarService extends GoogleService {
                     }
                 } catch (ParseException e) {
                     // TODO handle exception
+                  //TODO bam by Djer |Log4J| Une petite Log ?
                 }
                 textList.add(text);
                 dateList.add(date);
