@@ -225,6 +225,7 @@ public class DapUser {
     /** DaP User Id. */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //TODO bam by Djer |IDE| En général on laisse un "get" sur l'ID. Au pire ajoute un "suppress Warning"
     private Long id;
     /** DaP User login name. */
     @Column(nullable = false, unique = true)
@@ -237,6 +238,7 @@ public class DapUser {
         googleAccounts = new ArrayList<GoogleAccount>();
     }
 
+    //TODO bam by Djer |POO| Met tes attributs au début. Ordre attendu dans une classe : Constantes, attributs, initialisateur static, constructeur, méthode métier, méthode "utilitaire" (toString, equals,..), getter/setter.
     /** List of google accounts. */
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.LAZY)
     private List<GoogleAccount> googleAccounts;

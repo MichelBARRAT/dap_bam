@@ -219,6 +219,7 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class ServerLaunch {
     /** Logs. */
+    //TODO bam by Djer |Log4J| Utilise le nom pleimnement qualifié de la classe, ou "rien" comme catégory (et laisser Log4J décider)
     private static final Logger LOG = LogManager.getLogger("Config parameters");
 
     /**
@@ -243,6 +244,7 @@ public class ServerLaunch {
     }
 
     /**
+     * //TODO bam by Djer |Spring| Non, cette méthode est appelé "une fois que Spring à fini de se configurer" durant le processus de lancement du serveur. Le serveur se lance par "SpringApplication.run....".
      * Launch server.
      *
      * @param ctx put application context.

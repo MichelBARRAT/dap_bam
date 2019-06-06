@@ -233,4 +233,7 @@ public class InformativeController {
     private String accountAdded() {
         return "Vous avez bien reussi à ajouter votre compte !";
     }
+
+    //TODO bam by Djer |MVC| Tu pourrais ajouter la gestion "AccountAlreadyAdded" ici (cette vue est utilisée de façon assez "dégeulasse" dans GoogleAccountController ligne 365)
+
 }

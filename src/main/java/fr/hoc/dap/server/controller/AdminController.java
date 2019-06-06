@@ -235,7 +235,7 @@ public class AdminController {
      * Display admin panel in server client.
      *
      * @param model push parameter in HTML.
-     * @return The name of the view to build. This view will return HTMML content.
+     * @return The name of the view to build. This view will return HTML content.
      * @throws GeneralSecurityException cannot connect to google sever.
      * @throws IOException              if the credentials.json file cannot be found.
      */
@@ -251,18 +251,21 @@ public class AdminController {
             storedCredential.setGoogleStoreCredential(credentialMap.get(user));
             dataMap.put(user, storedCredential);
         }
+        //TODO bam by Djer |POO| "accounts" ou "googleAccounts" serait plus claire dans ton Thymeleaf par la suite.
         model.addAttribute("map", dataMap);
         return "admin";
     }
 
     /**
-     * Used to delete en userID.
+     * Used to delete an user.
      *
-     * @param userKey Dap user ID to delete.
+     * @param userKey DaP user ID to delete.
      * @return The name of the view to build. This view will return HTMML content.
      * @throws GeneralSecurityException cannot connect to google sever.
      * @throws IOException              if the credentials.json file cannot be found.
      */
+    //TODO bam by Djer |Rest API| L'API serait plus claire avec un "account/delete" (a déplacer dans GoogleAccountController?).
+    //TODO bam by Djer |Rest API| Gérer le delete d'un compte DaP ? ("/dap/deleteUser" ? Dans le DapAccountController ?)
     @RequestMapping("/delete")
     private String adminDelete(@RequestParam("userKey") final String userKey)
             throws GeneralSecurityException, IOException {
@@ -271,6 +274,7 @@ public class AdminController {
     }
 
     /**
+     * //TODO bam by Djer |JavaDoc| Cette description en semble pas adaptée.
      * Display admin panel in server client.
      *
      * @param userKey    which user current user name.
@@ -279,6 +283,7 @@ public class AdminController {
      * @throws GeneralSecurityException cannot connect to google sever.
      * @throws IOException              if the credentials.json file cannot be found.
      */
+    //TODO bam by Djer |Rest API| Prévoir la supression d'un "compte DaP" ?
     @RequestMapping("/changeUserName")
     private String adminChange(@RequestParam("userKey") final String userKey,
             @RequestParam("newUserKey") final String newUserKey) throws GeneralSecurityException, IOException {

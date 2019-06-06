@@ -212,6 +212,7 @@ public class Configuration {
     /** Default application name. */
     private static final String APPLICATION_NAME = "Hoc DaP";
     /** Default path to Home. */
+    //TODO bam by Djer |Design Patern| "DATA_DIRECTORY" serait plus juste, par defaut c'est le "home" mais la valeur pourrait changer. Ajoutez un setter dessus pour permetre à l'utilsiateur de définir "SON" dossier principale, puis les autres éléments relatif à se dossier
     private static final String HOME_PATH = System.getProperty("user.home");
     /** Default path tokens. */
     private static final String TOKENS_DIRECTORY_PATH = HOME_PATH + "/dap/tokens";
@@ -286,6 +287,7 @@ public class Configuration {
      *
      * @return port in this configuration.
      */
+  //TODO bam by Djer |POO| Cette méthode n'est plus utilisé, était utile que Google Etait en mode "client lourd". EN cas de doute dans elcipse, clique droit sur la méthode->rererences->project.
     protected Integer getPort() {
         return port;
     }
@@ -310,8 +312,9 @@ public class Configuration {
 
     /**
      * Set path to tokens files in this configuration .
+     * //TODO bam by Djer |Design Patern| Il est possible de rendre le ZeroConf plus "simple". Si le nouveau path comment par "/" alors relatif au "dataDirectory", sinon l'utilsiateur doit préciser le chemin complet.
      *
-     * @param tokensdirectorypath tokens path in this configuration .
+     * @param tokensdirectorypath tokens path in this configuration.
      */
     protected void setTokensdirectorypath0(final String tokensdirectorypath) {
         this.tokensDirectoryPath = tokensdirectorypath;

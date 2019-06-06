@@ -222,6 +222,8 @@ import fr.hoc.dap.server.data.repository.GoogleAccountRepository;
  */
 @Service
 public class AdminService extends GoogleService {
+
+    //TODO bam by Djer |POO| Tu as deja une isntance de ce repo dans le parent.
     /** TODO JavaDoc. */
     @Autowired
     private GoogleAccountRepository repo;
@@ -274,6 +276,7 @@ public class AdminService extends GoogleService {
      * @return TODO JavaDoc.
      */
     public String getLoginName(final String userKey) {
+        //TODO bam by Djer |Spring| On s'attend en général à ce que les "find" renvoient une entité. "retrieveLoginNameByUserKey" serait plus claire.
         return repo.findByUserKey(userKey);
     }
 }
